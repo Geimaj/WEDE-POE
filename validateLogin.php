@@ -22,7 +22,13 @@
 				$pass = $_POST["password"];
 				
 				if(validLogin($email,$pass)){
-					echo 'Welcome back.';
+					//store login cookie
+					$cookie_name = "user";
+					$cookie_value = $email;
+					$cookie_time = time() + (86400 * 30); // 30 days
+					setcookie($cookie_name, $cookie_value, $cookie_time, '/');
+					//redirect
+					header('location: shop.php');
 				} else {
 					echo 'Account does not exist. <a href="">Forgot Password?</a> or <a href="AddUser.php">Sign Up</a>';
 				}
@@ -33,7 +39,6 @@
 					//find user with matching username and password
 					$query = "select * from tbl_User where Email = '$email' and Password = '$hash' ";
 					$result = $DBConnect->query($query);
-
 					//return true if user is found
 					return $result->num_rows > 0;
 

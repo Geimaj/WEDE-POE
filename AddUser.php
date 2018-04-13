@@ -28,11 +28,11 @@
 
     function insertUser($fname,$lname,$email,$hash){
         global $DBConnect;
-        $query = "insert into tbl_User (FName,LName,Email,Password) values('$fname','$lname','$email','$hash')";
+        $query = "insert into tbl_User (FName,LName,Email,Password) values('$fname','$lname','$email','$hash');";
         $result = $DBConnect->query($query);
-        
+        echo $query;
         if($result === false){
-            'echo failed adding user';
+            echo 'echo failed adding user';
         } else {
             echo "$email added sucsessfully";
         }

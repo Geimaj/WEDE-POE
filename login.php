@@ -13,10 +13,11 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Your Title</title>
+		<link rel="stylesheet" type="text/css" href="css/stylesheet.css">
 	</head>
 	<body>
-		<form action="validateLogin.php" method="POST">
-			<label for="email">Username</label>
+		<form id="login-form" action="validateLogin.php" method="POST">
+			<label for="email">Email</label>
 			<input type="email" name="email" id="email">
 			</br>
 			<label for="password">Password</label>

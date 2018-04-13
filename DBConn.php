@@ -9,7 +9,7 @@
 	if  (!$DBConnect) {
 		$ErrorMsgs[] = "The database server is not available.";
 	} else {
-		echo "Sucsessful connection</br>";
+		// echo "Sucsessful connection</br>";
 	}
 		
 ?>
