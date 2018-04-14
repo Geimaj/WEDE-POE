@@ -24,7 +24,7 @@
     //create table Item
     $result = $DBConnect->query(
         "create table tbl_Item ( " .
-        "ID varchar(255) NOT NULL," .
+        "ID varchar(100) NOT NULL," .
         "Description varchar(255) NOT NULL,".
         "CostPrice double NOT NULL," .
         "Quantity int(11) NOT NULL,".
@@ -32,6 +32,7 @@
         "primary key(ID)" .
         ")"
     );
+
     displayStatus('Creating table item: ', $result);
 
     //auto increment to tbl_User
@@ -49,7 +50,7 @@
     displayStatus('Inserting Items: ', $result);
 
     function displayStatus($label,$result){
-        $status = $result ? "sucsess" : "failure";
+        $status = $result ? "sucsess" : "<span style=" . "'color:red;'". ">failure</span>";
         echo $label . ": " . $status . '<br>';
     }
 ?>
