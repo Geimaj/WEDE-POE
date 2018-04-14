@@ -1,5 +1,5 @@
 <?php
-    include("DBConn.php");
+    include("DBQuery.php");
 
     //delete tbl_user
     $result = $DBConnect->query('drop table tbl_User');
@@ -41,26 +41,15 @@
     displayStatus('Assign ID\'s to table User: ', $result);
 
     //insert data from file table User
-    $insert = "insert into tbl_User (Fname, LName, Email, Password) values ";
-    $data = file('userData.txt');
-    foreach($data as $row){
-        $fields = explode(',',$row);
-        $insert .= "({$fields[0]},{$fields[1]},{$fields[2]},{$fields[3]}),";        
-    }
-    //remove last comma
-    $insert =  substr($insert, 0, -1);
+    $result = insert('tbl_User', ['FName','LName','Email','Password'], file('userData.txt'));
+    displayStatus('Inserting Users: ', $result);
 
     //insert fata from file table Item
-    $insert = "insert into tbl_Item (ID,Description,CostPrice,Quantity,SellPrice) VALUES ";
-    $data = file('item.csv');
-    
+    $result = insert('tbl_Item',['ID','Description','CostPrice','Quantity','SellPrice'], file('item.csv'));
+    displayStatus('Inserting Items: ', $result);
 
-
-    $result = $DBConnect->query($insert);
-    displayStatus('Adding users: ', $result);
-    
-    function displayStatus($task,$result){
+    function displayStatus($label,$result){
         $status = $result ? "sucsess" : "failure";
-        echo $task . ": " . $status . '<br>';
+        echo $label . ": " . $status . '<br>';
     }
 ?>
