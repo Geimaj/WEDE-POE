@@ -15,6 +15,28 @@
         return "images/$id/" . scandir("images/$id")[2];
     }
 
+    function selectItems(){
+        global $DBConnect;
+        $items = array();
+        $sql = "select * from tbl_Item";
+        $result = $DBConnect->query($sql);
+        if($result){
+            while($row = $result->fetch_assoc()){
+                $id = $row["ID"];
+                $desc = $row["Description"];
+                $cp = $row['CostPrice'];
+                $quantity = $row['Quantity'];
+                $sp = $row['SellPrice'];
+                $item = new Item($id,$desc,$cp,$quantity,$sp);
+                $items[] = $item;
+            }
+            return $items;
+        } else {
+            return null;
+        }
+
+    }
+
     function selectItemById($id){
         global $DBConnect;
         $sql = "select * from tbl_Item where ID = '$id'";

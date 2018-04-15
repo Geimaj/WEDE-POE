@@ -34,12 +34,19 @@
 						if(isset($_COOKIE['cartItems'])){
 							$cartItems = unserialize($_COOKIE['cartItems']);
 						}
+						//update cart items
 						$cartItems[] = $item;
 						$cookie_name = "cartItems";
 						$cookie_value = serialize($cartItems);
 						$cookie_time = time() + (86400 * 30); // 30 days
 						setcookie($cookie_name, $cookie_value, $cookie_time, '/');
-						header('location: cart.php');
+						//set last item
+						$cookie_name = "lastItem";
+						$cookie_value = serialize(end($cartItems));
+						$cookie_time = time() + (86400 * 1); // 30 days
+						setcookie($cookie_name, $cookie_value, $cookie_time, '/');
+						//redirect back to shopping page
+						header('location: index.php');
 					}
 				}
 			?>

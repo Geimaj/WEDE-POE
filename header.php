@@ -7,9 +7,17 @@
                 $user = getNames($_COOKIE['user']);
                 $loggedIn = '<li>User ' . $user . ' logged in</li>';
                 echo $loggedIn;
+
+                $numCartItems = '';
+
+                if(isset($_COOKIE['cartItems'])){
+                    $items = unserialize($_COOKIE['cartItems']);
+                    $numCartItems = sizeof($items);
+                }
+
                 ?>
                     <li><a href="index.php">Home</a></li>
-                    <li><a href="cart.php">Cart</a></li>
+                    <li><a href="cart.php">Cart<?php echo "($numCartItems)" ?></a></li>
                     <li><a href="logout.php">Logout</a></li>
                     <?php
                 } else {

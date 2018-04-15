@@ -1,3 +1,19 @@
+  /* Name: Jamie 
+	Surname: Gregory  
+	Student#: 16000925
+	Login
+	Declaration: This is my own work and 
+	  any code obtained from other sources
+		will be referenced
+		
+	References:
+        https://www.w3schools.com/Css/css_table.asp
+    */
+
+body {
+    text-align: center;
+}
+
 #content {
     margin-top:5%;
     height: 100%;
@@ -8,12 +24,11 @@
     color: whitesmoke;
     width: 100%;
     height:10%;
-    position: absolute;
+    position: relative;
     top: 0%;
     left: 0%;
-    /* margin-bottom: 10%; */
+    margin-bottom: 0%;
 }
-
 
 
 #header li {
@@ -51,3 +66,31 @@
     widows: 6em;
 }
 
+table , td{
+    border: 1px solid gray;
+    border-collapse: collapse;
+    border-radius: 5%;
+    width: 80%;
+    margin: 0% auto;
+    /* text-align: left; */
+}
+
+#message {
+    width: 30%;
+    background: #a6d36b;
+    border: 1px solid #327a3f;
+    border-radius: 0.5em;
+    position: fixed;
+    right: 5%;
+    top: 20%;
+    animation-name: fadeOut;
+    animation-duration: 7s;
+    opacity: 0;
+}
+
+@keyframes fadeOut{
+    0% {opacity: 1;}
+    /* 75% {opacity: 0.5;} */
+    100% {opacity: 0;}
+    /* 100%{display: none;} */
+}

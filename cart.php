@@ -26,38 +26,48 @@
 				//ensure user is logged in
 
 				if(isset($_COOKIE['user'])){ 
-					echo getNames($_COOKIE['user']);
+					// echo getNames($_COOKIE['user']);
+					echo "<h1>Your cart</h1>";
+					echo "<a href='index.php'><h2>Continue Shopping</h2></a>";
 					if(isset($_COOKIE['cartItems'])){
-						echo "<a href='index.php'><h2>Continue Shopping</h2></a>";
 						$cartItems = unserialize($_COOKIE['cartItems']);
-
-						$table = "<table>";
-						$table .= "<tr>";
-						$table .= "<td>Item Description</td>";
-						$table .=  "<td>Price</td>";
-						$table .= "</tr>";
-						foreach($cartItems as $cartItem){
-							$table .= "<tr>";
-							$table .= "<td>{$cartItem->description}</td>";
-							$table .=  "<td>{$cartItem->sellPrice}</td>";
-							$id = $cartItem->ID;
-							$imgPath = getItemImagePath($id);
-							$img = "<img src='{$imgPath}' class='itemThumbnail'>";
-							$table .= "<td>$img</td>";
-							//create form
-							$form = "<form action='removeFromCart.php' method='POST'>";
-							$form .= "<input type ='hidden' name='itemID' value='$id'>";
-							$form .= "<input type='submit' value='Remove from cart'>";
-							$form .= "</form>";
-							//add (form) add to cart button
-							$table .= "<td>$form</td>";
-							$table .= "</tr>";
-						}
-
-						$table .= "</table>";
-						echo $table;
+						if( sizeof($cartItems) > 0){
 						
-					} else {
+							$total = 0;
+							
+							$table = "<table>";
+							$table .= "<tr>";
+							$table .= "<td>Item Description</td>";
+							$table .=  "<td>Price</td>";
+							$table .= "</tr>";
+							foreach($cartItems as $cartItem){
+								$table .= "<tr>";
+								$table .= "<td>{$cartItem->description}</td>";
+								$table .=  "<td>R {$cartItem->sellPrice}</td>";
+								$id = $cartItem->ID;
+								$imgPath = getItemImagePath($id);
+								$img = "<img src='{$imgPath}' class='itemThumbnail'>";
+								$table .= "<td>$img</td>";
+								//create form
+								$form = "<form action='removeFromCart.php' method='POST'>";
+								$form .= "<input type ='hidden' name='itemID' value='$id'>";
+								$form .= "<input type='submit' value='Remove from cart'>";
+								$form .= "</form>";
+								//add (form) remove from cart button
+								$table .= "<td>$form</td>";
+								$table .= "</tr>";
+								
+								$total += $cartItem->sellPrice;
+							}
+							
+							$table .= "<tr><td>Total: </td><td>R $total</td></tr>";
+							$table .= "</table>";
+							echo $table;
+						} else {
+							echo '<h3 class="error">You have an empty cart.</h3>';
+						}
+							
+						} else {
 						echo '<h3 class="error">You have an empty cart.</h3>';
 					}
 				}

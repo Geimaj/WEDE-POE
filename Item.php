@@ -25,6 +25,10 @@
             $this->quantity = $quant;
             $this->sellPrice = $sell;
         }
+
+        public function getThumbnailPath(){
+            return "images/$this->ID/" . scandir("images/$this->ID")[2];
+        }
     }
 
 ?>

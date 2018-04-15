@@ -14,11 +14,12 @@
 */  
 ?>
 <html lang="en">
-<head>
-	<meta charset="utf-8">
-	<title>Shopping</title>
-	<link rel="stylesheet" type="text/css" href="css/stylesheet.css">
-</head>
+	<head>
+		<meta charset="utf-8">
+		<title>Shopping</title>
+		<link rel="stylesheet" type="text/css" href="css/stylesheet.css">
+		<script type="text/javascript" src="js/addToCart.js"></script>
+	</head>
 	<body>
 			<?php // Script 2.1 - predefined.php
 				if(!isset($_COOKIE['user'])){ //redirect to login
@@ -28,53 +29,56 @@
 				include('header.php');
 				?>
 				<div id="content">
-					<h2>Items</h2>
+					<h1>Items</h1>
 						<?php
-							if(!isset($_POST['showItems'])){
-								echo "<form action='index.php' method='POST' ><input type='submit' value='Show Items' name='showItems'></form>";
-							} else {
-								
-								$select = ("select ID, Description, SellPrice from tbl_Item");
+							// if(!isset($_POST['showItems'])){
+							// 	echo "<form action='index.php' method='POST' ><input type='submit' value='Show Items' name='showItems'></form>";
+							// } else {
+
+								//display message confirimg item was added to cart
+								if(isset($_COOKIE['lastItem'])){
+									echo 'added item';
+									$lastItem = unserialize($_COOKIE['lastItem']);
+									//make sure cartItems inst empty
+									//get last cart item (was last added)
+									displayMessage("$lastItem->description was added to your cart for R $lastItem->sellPrice ", "cart.php");
+									//unset cookie so we dont get the message again
+									setcookie('lastItem', '', time()-1, '/');
+								}
+
+								$items = selectItems();
 								$table = "<table>";
 								$table .= "<tr>";
 								$table .= "<td>Item Description</td>";
 								$table .= "<td>Price</td>";								
+								$table .= "<td>Tumbnail</td>";								
 								$table .= "</tr>";
-								
-								$result = $DBConnect->query($select);
-								if($result){
-										while($row = $result->fetch_assoc()){
-												$table .= "<tr>";
-												//store id 
-												$id = $row['ID'];
-												//remove 0th element ( don't display ID)
-												$row = array_values($row);
-												unset($row[0]);
-												//add data to table
-												foreach($row as $i => $field){
-														//check if 2nd column (add R format)
-														$format = $i === 2 ? 'R' : '';
-														$table .= "<td>$format$field";
-														$table .= "</td>";
-												}
-												//add image
-												$imgPath = getItemImagePath($id);
-												$img = "<img src='{$imgPath}' class='itemThumbnail'>";
-												$table .= "<td>$img</td>";
-												//create form
-												$form = "<form action='addToCart.php' method='POST'>";
-												$form .= "<input type ='hidden' name='itemID' value='$id'>";
-												$form .= "<input type='submit' value='add to cart'>";
-												$form .= "</form>";
-												//add (form) add to cart button
-												$table .= "<td>$form</td>";
 
-												$table .= "</tr>";                
-										}
+								foreach($items as $item){
+									$table .= "<tr>";
+									$table .= "<td>$item->description</td>";
+									$table .= "<td>R $item->sellPrice</td>";
+									$thumbnail = "<img class='itemThumbnail' src='" . $item->getThumbnailPath() . "'>";
+									$table .= "<td>$thumbnail</td>";
+									// create form
+									$form = "<form action='addToCart.php' method='POST'>";
+									$form .= "<input type ='hidden' name='itemID' value='$item->ID'>";
+									$form .= "<input type='submit' value='add to cart'>";
+									$form .= "</form>";
+									//add (form) add to cart button
+									$table .= "<td>$form</td>";
+									$table .= "</tr>";
 								}
-								$table .= "</table>";
+
+								//display table
 								echo $table;
+															
+							// }
+
+							function displayMessage($message, $target){
+								echo "<a href='$target'><div id='message'>$message</div></a>";
 							}
+
 						?>
 
 				</div>
