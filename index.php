@@ -21,7 +21,8 @@
 		<script type="text/javascript" src="js/addToCart.js"></script>
 	</head>
 	<body>
-			<?php // Script 2.1 - predefined.php
+			<?php
+				echo "hello harry";
 				if(!isset($_COOKIE['user'])){ //redirect to login
 					header('location: login.php');
 				} 
