@@ -1,6 +1,38 @@
 <?php
+/*Name: Jamie 
+	Surname: Gregory  
+	Student#: 16000925
+	Login
+	Declaration: This is my own work and 
+	  any code obtained from other sources
+	  will be referenced
+*/  
 
     include('DBConn.php');
+    include('Item.php');
+
+    function getItemImagePath($id){
+        return "images/$id/" . scandir("images/$id")[2];
+    }
+
+    function selectItemById($id){
+        global $DBConnect;
+        $sql = "select * from tbl_Item where ID = '$id'";
+        $result = $DBConnect->query($sql);
+        if($result){
+            $row = $result->fetch_assoc();
+            $ID = $row['ID'];  
+            $description = $row['Description'];
+            $costPrice = $row['CostPrice'];
+            $quantity = $row['Quantity'];
+            $sellPrice = $row['SellPrice'];
+            $item =  new Item($ID,$description, $costPrice, $quantity, $sellPrice);
+            return $item;
+        } else {
+            echo 'query failed';
+        }
+        return null;
+    }
 
     function insert($tableName,$columns,$data){
         $insert = "insert into $tableName (";
@@ -41,6 +73,17 @@
 
         $fields = $result->fetch_assoc();
         return $fields['FName'] . ' ' . $fields['LName'];
+    }
+
+    function validLogin($email,$pass){
+        global $DBConnect;
+        $hash = md5($pass);
+        //find user with matching username and password
+        $query = "select * from tbl_User where Email = '$email' and Password = '$hash' ";
+        $result = $DBConnect->query($query);
+        //return true if user is found
+        return $result->num_rows > 0;
+
     }
 
 ?>
