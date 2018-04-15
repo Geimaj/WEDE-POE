@@ -29,6 +29,18 @@
         public function getThumbnailPath(){
             return "images/$this->ID/" . scandir("images/$this->ID")[2];
         }
+
+        public function getImagePaths(){
+            $images = [];
+            $dir = opendir("images/$this->ID");
+            while($file = readdir($dir)){
+                if($file !== '.' && $file !== '..'){
+                    $images[] = "images/$this->ID/$file";
+                }
+            }
+            return $images; 
+        }
+
     }
 
 ?>

@@ -10,8 +10,10 @@
 
                 $numCartItems = '';
 
-                if(isset($_COOKIE['cartItems'])){
-                    $items = unserialize($_COOKIE['cartItems']);
+                
+                if(isset($_COOKIE['cartItems'][$user])){
+                    $items = unserialize($_COOKIE['cartItems'][$user]);
+                    print_r($items);
                     $numCartItems = sizeof($items);
                 }
 

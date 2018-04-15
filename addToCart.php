@@ -26,16 +26,23 @@
 			<?php
 				//ensure user is logged in
 				if(isset($_COOKIE['user'])){ 
-					echo getNames($_COOKIE['user']);
 					if(isset($_POST['itemID'])){
 						$id = $_POST['itemID'];
 						$item = selectItemById($id);
-						$cartItems = [];
+						$cartItems = array();
+						$userItems = array();
+						//check if cart items is set
 						if(isset($_COOKIE['cartItems'])){
 							$cartItems = unserialize($_COOKIE['cartItems']);
+							$userItems = $cartItems[$user];
+							//check if user cart items is ser
+							echo "<pre>";
+							print_r($userItems);
+							echo "</pre>";
 						}
 						//update cart items
-						$cartItems[] = $item;
+						 $userItems[] = $item;
+						// print_r(unserialize( $_COOKIE['cartItems']));
 						$cookie_name = "cartItems";
 						$cookie_value = serialize($cartItems);
 						$cookie_time = time() + (86400 * 30); // 30 days
@@ -46,7 +53,7 @@
 						$cookie_time = time() + (86400 * 1); // 30 days
 						setcookie($cookie_name, $cookie_value, $cookie_time, '/');
 						//redirect back to shopping page
-						header('location: index.php');
+						// header('location: index.php');
 					}
 				}
 			?>

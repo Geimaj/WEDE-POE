@@ -22,7 +22,6 @@
 	</head>
 	<body>
 			<?php
-				echo "hello harry";
 				if(!isset($_COOKIE['user'])){ //redirect to login
 					header('location: login.php');
 				} 
@@ -39,7 +38,7 @@
 								//display message confirimg item was added to cart
 								if(isset($_COOKIE['lastItem'])){
 									echo 'added item';
-									$lastItem = unserialize($_COOKIE['lastItem']);
+									$lastItem = unserialize($_COOKIE['lastItems']);
 									//make sure cartItems inst empty
 									//get last cart item (was last added)
 									displayMessage("$lastItem->description was added to your cart for R $lastItem->sellPrice ", "cart.php");
@@ -51,16 +50,16 @@
 								$table = "<table>";
 								$table .= "<tr>";
 								$table .= "<td>Item Description</td>";
+								$table .= "<td>Item Details</td>";								
 								$table .= "<td>Price</td>";								
-								$table .= "<td>Tumbnail</td>";								
 								$table .= "</tr>";
 
 								foreach($items as $item){
 									$table .= "<tr>";
 									$table .= "<td>$item->description</td>";
-									$table .= "<td>R $item->sellPrice</td>";
-									$thumbnail = "<img class='itemThumbnail' src='" . $item->getThumbnailPath() . "'>";
+									$thumbnail = "<a href='showItem.php?id=$item->ID'><img class='itemThumbnail' src='" . $item->getThumbnailPath() . "'></a><h4>click to enlarge</h4>";
 									$table .= "<td>$thumbnail</td>";
+									$table .= "<td>R $item->sellPrice</td>";
 									// create form
 									$form = "<form action='addToCart.php' method='POST'>";
 									$form .= "<input type ='hidden' name='itemID' value='$item->ID'>";

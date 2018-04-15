@@ -7,8 +7,10 @@
     $password = md5($_POST['password']);
 
     if(validEmail($email)){ //valid email, create user
-        echo 'valid email<br>';
+        //save user detai;s
         insertUser($fname,$lname,$email,$password);
+        //redirect to login page
+        header('location: login.php');
     } else { //email invalid
         echo 'that email is already registred. <a href="#">Forgot Password?</a><br>';
     }

@@ -51,6 +51,7 @@ body {
     margin: auto;
     padding: 2%;
     color: white;
+    border-radius: 2em;
 }
 
 #login-form input {
@@ -73,6 +74,10 @@ table , td{
     width: 80%;
     margin: 0% auto;
     /* text-align: left; */
+}
+
+td {
+    width: 40%;
 }
 
 #message {
