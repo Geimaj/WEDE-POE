@@ -1,5 +1,6 @@
 <!doctype html>
 <?php
+session_start();
   /*Name: Jamie 
 	Surname: Gregory  
 	Student#: 16000925
@@ -25,24 +26,22 @@
 			<?php
 				//ensure user is logged in
 				if(isset($_COOKIE['user'])){ 
-					echo getNames($_COOKIE['user']);
 					if(isset($_POST['itemID'])){
 						$id = $_POST['itemID'];
 						$item = selectItemById($id);
-						$cartItems = [];
-						if(isset($_COOKIE['cartItems'])){
-							$cartItems = unserialize($_COOKIE['cartItems']);
-						}
-						
-						$splicePoint = array_search($item,$cartItems);
-						echo "I want to delete {$item->description} from index $splicePoint";
-						$cartItems = array_values($cartItems);
-						unset($cartItems[$splicePoint]);
 
-						$cookie_name = "cartItems";
-						$cookie_value = serialize($cartItems);
-						$cookie_time = time() + (86400 * 30); // 30 days
-						setcookie($cookie_name, $cookie_value, $cookie_time, '/');
+						echo "delete item $item->ID";
+						$userItems = unserialize($_SESSION[$user]);
+						echo "<pre>";
+						print_r($userItems);
+						echo "</pre>";
+
+						$splicePoint = array_search($item,$userItems);
+						echo "I want to delete {$item->description} from index $splicePoint";
+						$userItems = array_values($userItems);
+						unset($userItems[$splicePoint]);
+
+						$_SESSION[$user] = serialize($userItems);
 
 						header('location: cart.php');
 

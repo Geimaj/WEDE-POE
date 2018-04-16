@@ -1,5 +1,6 @@
 <!doctype html>
 <?php
+	session_start();
   /*Name: Jamie 
 	Surname: Gregory  
 	Student#: 16000925
@@ -29,31 +30,26 @@
 					if(isset($_POST['itemID'])){
 						$id = $_POST['itemID'];
 						$item = selectItemById($id);
-						$cartItems = array();
+
 						$userItems = array();
-						//check if cart items is set
-						if(isset($_COOKIE['cartItems'])){
-							$cartItems = unserialize($_COOKIE['cartItems']);
-							$userItems = $cartItems[$user];
-							//check if user cart items is ser
-							echo "<pre>";
-							print_r($userItems);
-							echo "</pre>";
-						}
-						//update cart items
-						 $userItems[] = $item;
-						// print_r(unserialize( $_COOKIE['cartItems']));
-						$cookie_name = "cartItems";
-						$cookie_value = serialize($cartItems);
-						$cookie_time = time() + (86400 * 30); // 30 days
-						setcookie($cookie_name, $cookie_value, $cookie_time, '/');
-						//set last item
+						// echo selectUserIdByEmail($_COOKIE['user']);
+						//populate existing data
+						if(isset($_SESSION[$user])){
+							$sesh = unserialize($_SESSION[$user]);
+							$userItems = $sesh;
+						} 
+
+						$userItems[] = $item;
+						$_SESSION[$user] = serialize($userItems);
+
+						//set last item cookie for notification
+						$lastItem = end($userItems);
 						$cookie_name = "lastItem";
-						$cookie_value = serialize(end($cartItems));
-						$cookie_time = time() + (86400 * 1); // 30 days
+						$cookie_value = serialize($lastItem);
+						$cookie_time = time() + (86400); // 30 days
 						setcookie($cookie_name, $cookie_value, $cookie_time, '/');
-						//redirect back to shopping page
-						// header('location: index.php');
+
+						header('location: index.php');
 					}
 				}
 			?>

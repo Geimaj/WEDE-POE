@@ -29,6 +29,8 @@
 						$user = getNames($_COOKIE["user"]);
 						unset($_COOKIE['user']);
 						setcookie('user', null, -1, '/');
+						unset($_SESSION[$user]);
+						
 						echo $user . " logged out";
 					?>
 

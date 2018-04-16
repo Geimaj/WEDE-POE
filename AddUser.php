@@ -1,5 +1,8 @@
+<head>
+    <link rel="stylesheet" type="text/css" href="css/stylesheet.css">
+</head>
 <?php
-    include("DBConn.php");
+    include("header.php");
     //make sure email doesnt exist already
     $email = $_POST['email'];
     $fname = $_POST['FName'];

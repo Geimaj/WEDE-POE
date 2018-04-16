@@ -29,23 +29,23 @@
 					// echo getNames($_COOKIE['user']);
 					echo "<h1>Your cart</h1>";
 					echo "<a href='index.php'><h2>Continue Shopping</h2></a>";
-					if(isset($_COOKIE['cartItems'])){
-						$cartItems = unserialize($_COOKIE['cartItems']);
-						if( sizeof($cartItems) > 0){
-						
-							$total = 0;
-							
+
+
+					if(isset($_SESSION[$user])){
+						$userItems = unserialize($_SESSION[$user]);
 							$table = "<table>";
 							$table .= "<tr>";
 							$table .= "<td>Item Description</td>";
 							$table .=  "<td>Price</td>";
 							$table .= "</tr>";
-							foreach($cartItems as $cartItem){
+							$total = 0;
+							foreach($userItems as $cartItem){
+								// echo $cartItem->ID;
 								$table .= "<tr>";
 								$table .= "<td>{$cartItem->description}</td>";
 								$table .=  "<td>R {$cartItem->sellPrice}</td>";
 								$id = $cartItem->ID;
-								$imgPath = getItemImagePath($id);
+								$imgPath = $cartItem->getThumbnailPath();
 								$img = "<img src='{$imgPath}' class='itemThumbnail'>";
 								$table .= "<td>$img</td>";
 								//create form
@@ -56,19 +56,14 @@
 								//add (form) remove from cart button
 								$table .= "<td>$form</td>";
 								$table .= "</tr>";
-								
 								$total += $cartItem->sellPrice;
 							}
-							
-							$table .= "<tr><td>Total: </td><td>R $total</td></tr>";
-							$table .= "</table>";
-							echo $table;
-						} else {
-							echo '<h3 class="error">You have an empty cart.</h3>';
-						}
-							
-						} else {
-						echo '<h3 class="error">You have an empty cart.</h3>';
+						$table .= "<tr><td>Total: </td><td>R $total</td></tr>";
+						$table .= "</table>";
+						echo $table;
+						
+					} else {
+						echo 'empty cart';
 					}
 				}
 			?>

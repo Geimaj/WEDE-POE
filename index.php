@@ -37,15 +37,17 @@
 
 								//display message confirimg item was added to cart
 								if(isset($_COOKIE['lastItem'])){
-									echo 'added item';
-									$lastItem = unserialize($_COOKIE['lastItems']);
+									$lastItem = unserialize($_COOKIE['lastItem']);
 									//make sure cartItems inst empty
 									//get last cart item (was last added)
-									displayMessage("$lastItem->description was added to your cart for R $lastItem->sellPrice ", "cart.php");
+									if($lastItem){
+										displayMessage("$lastItem->description was added to your cart for R $lastItem->sellPrice ", "cart.php");
+									}
 									//unset cookie so we dont get the message again
 									setcookie('lastItem', '', time()-1, '/');
 								}
 
+								//display all items
 								$items = selectItems();
 								$table = "<table>";
 								$table .= "<tr>";

@@ -11,8 +11,11 @@
     include('DBConn.php');
     include('Item.php');
 
-    function getItemImagePath($id){
-        return "images/$id/" . scandir("images/$id")[2];
+    function selectUserIdByEmail($email){
+        global $DBConnect;
+        $sql = "select ID from tbl_User where email = $email ";
+        $result = $DBConnect->query($sql);
+        return $result['ID'];
     }
 
     function selectItems(){

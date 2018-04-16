@@ -1,6 +1,7 @@
 <div id="header">
     <ul>
         <?php
+        session_start();
             $loggedIn = "";
             include("DBQuery.php");
             if(isset($_COOKIE['user'])){
@@ -8,12 +9,10 @@
                 $loggedIn = '<li>User ' . $user . ' logged in</li>';
                 echo $loggedIn;
 
-                $numCartItems = '';
-
+                $numCartItems = '0';
                 
-                if(isset($_COOKIE['cartItems'][$user])){
-                    $items = unserialize($_COOKIE['cartItems'][$user]);
-                    print_r($items);
+                if(isset($_SESSION[$user])){
+                    $items = unserialize($_SESSION[$user]);
                     $numCartItems = sizeof($items);
                 }
 
