@@ -15,7 +15,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Shopping</title>
+	<title>Item</title>
 	<link rel="stylesheet" type="text/css" href="css/stylesheet.css">
 </head>
 	<body>

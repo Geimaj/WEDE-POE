@@ -1,6 +1,5 @@
 <!doctype html>
 <?php
-	session_start();
   /*Name: Jamie 
 	Surname: Gregory  
 	Student#: 16000925

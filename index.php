@@ -31,22 +31,20 @@
 				<div id="content">
 					<h1>Items</h1>
 						<?php
-							// if(!isset($_POST['showItems'])){
-							// 	echo "<form action='index.php' method='POST' ><input type='submit' value='Show Items' name='showItems'></form>";
-							// } else {
-
-								//display message confirimg item was added to cart
-								if(isset($_COOKIE['lastItem'])){
-									$lastItem = unserialize($_COOKIE['lastItem']);
-									//make sure cartItems inst empty
-									//get last cart item (was last added)
-									if($lastItem){
-										displayMessage("$lastItem->description was added to your cart for R $lastItem->sellPrice ", "cart.php");
-									}
-									//unset cookie so we dont get the message again
-									setcookie('lastItem', '', time()-1, '/');
+							//display message confirimg item was added to cart
+							if(isset($_COOKIE['lastItem'])){
+								$lastItem = unserialize($_COOKIE['lastItem']);
+								//make sure cartItems inst empty
+								//get last cart item (was last added)
+								if($lastItem){
+									displayMessage("$lastItem->description was added to your cart for R $lastItem->sellPrice ", "cart.php");
 								}
-
+								//unset cookie so we dont get the message again
+								setcookie('lastItem', '', time()-1, '/');
+							}
+							if(!isset($_POST['showItems'])){
+								echo "<form action='index.php' method='POST' ><input type='submit' value='Show Items' name='showItems'></form>";
+							} else {
 								//display all items
 								$items = selectItems();
 								$table = "<table>";
@@ -58,7 +56,7 @@
 
 								foreach($items as $item){
 									$table .= "<tr>";
-									$table .= "<td>$item->description</td>";
+									$table .= "<td><a href='showItem.php?id=$item->ID'>$item->description</a></td>";
 									$thumbnail = "<a href='showItem.php?id=$item->ID'><img class='itemThumbnail' src='" . $item->getThumbnailPath() . "'></a><h4>click to enlarge</h4>";
 									$table .= "<td>$thumbnail</td>";
 									$table .= "<td>R $item->sellPrice</td>";
@@ -75,7 +73,7 @@
 								//display table
 								echo $table;
 															
-							// }
+							}
 
 							function displayMessage($message, $target){
 								echo "<a href='$target'><div id='message'>$message</div></a>";

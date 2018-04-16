@@ -18,8 +18,9 @@
 </head>
     <body>
         <?php
-            // include("DBQuery.php");
             include("header.php");
+            $userFile = file('test-data/tbl_User.csv');
+            $itemFile = file('test-data/item.csv');
         ?>
         <div id="content">
             <?php
@@ -60,16 +61,16 @@
 
                 //auto increment to tbl_User
                 $result = $DBConnect->query(
-                    "alter table `tbl_User` MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;"
+                    "alter table `tbl_User` MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;"
                 );
                 displayStatus('Assign ID\'s to table User', $result);
 
                 //insert data from file table User
-                $result = insert('tbl_User', ['FName','LName','Email','Password'], file('test-data/userData.csv'));
+                $result = insert('tbl_User', ['FName','LName','Email','Password'], $userFile);
                 displayStatus('Inserting Users', $result);
 
                 //insert fata from file table Item
-                $result = insert('tbl_Item',['ID','Description','CostPrice','Quantity','SellPrice'], file('test-data/item.csv'));
+                $result = insert('tbl_Item',['ID','Description','CostPrice','Quantity','SellPrice'], $itemFile);
                 displayStatus('Inserting Items', $result);
 
                 function displayStatus($label,$result){

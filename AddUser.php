@@ -1,3 +1,15 @@
+<?php
+  /*Name: Jamie 
+	Surname: Gregory  
+	Student#: 16000925
+	Login
+	Declaration: This is my own work and 
+	  any code obtained from other sources
+		will be referenced
+		
+	References:
+*/  
+?>
 <head>
     <link rel="stylesheet" type="text/css" href="css/stylesheet.css">
 </head>

@@ -1,4 +1,8 @@
+<head>
+    <link rel="stylesheet" type="text/css" href="css/stylesheet.css">
+</head>
 <div id="header">
+    <h2>Jamie's Just Parts</h2>
     <ul>
         <?php
         session_start();
@@ -29,7 +33,7 @@
                 }
                 
                 ?>
-                <li><a href="createTable.php">Recreate Database</a></li>
+                <li><a class='danger' href="createTable.php">Recreate Database</a></li>
         
     </ul>
 </div>

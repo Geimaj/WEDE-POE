@@ -12,7 +12,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Shopping</title>
+	<title>Logout</title>
 	<link rel="stylesheet" type="text/css" href="css/stylesheet.css">
 </head>
 	<body>
@@ -31,7 +31,8 @@
 						setcookie('user', null, -1, '/');
 						unset($_SESSION[$user]);
 						
-						echo $user . " logged out";
+						header('location: login.php');
+						// echo $user . " logged out";
 					?>
 
 				</div>
