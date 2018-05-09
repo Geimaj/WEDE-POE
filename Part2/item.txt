@@ -1,0 +1,30 @@
+1,'ps4', 4000
+2,'GWM Steed', 70000
+3,'Robot Bull', 30000
+4,'Whoopie cushion', 20
+5,'20 Marbles', 60
+6,'Sausage rolls', 40
+7,'Eggs', 19
+8,'Paino choc', 15
+9,'Raspberry Pi', 700
+10,'Core i7', 5000
+11,'Shurken', 200
+12,'Nunchucks', 400
+13,'Rubics cube', 400
+14,'27" Monitor', 3000
+15,'Bag of Apples', 30
+16,'Copper pipe', 90
+17,'Ready mix', 190
+18,'Trowel', 80
+19,'Wheel barrow', 600
+20,'Gum boots', 200
+21,'Drill bits', 500
+22,'Pepper steak pie', 14
+23,'Parachute', 3800
+24,'Absailing kit', 2900
+25,'Walkie Talkies', 500
+26,'Carribena', 40
+27,'Nylon rope', 80
+28,'Q20', 60
+29,'Duct tape', 80
+30,'2L Vanilla Ice Cream', 70
