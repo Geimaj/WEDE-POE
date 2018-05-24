@@ -42,9 +42,9 @@
 								//unset cookie so we dont get the message again
 								setcookie('lastItem', '', time()-1, '/');
 							}
-							if(!isset($_POST['showItems'])){
-								echo "<form action='index.php' method='POST' ><input type='submit' value='Show Items' name='showItems'></form>";
-							} else {
+							// if(!isset($_POST['showItems'])){
+							// 	echo "<form action='index.php' method='POST' ><input type='submit' value='Show Items' name='showItems'></form>";
+							// } else {
 								//display all items
 								$items = selectItems();
 								$table = "<table>";
@@ -73,7 +73,7 @@
 								//display table
 								echo $table;
 															
-							}
+							// }
 
 							function displayMessage($message, $target){
 								echo "<a href='$target'><div id='message'>$message</div></a>";
