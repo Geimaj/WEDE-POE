@@ -104,8 +104,10 @@
         $query = "select * from tbl_User where Email = '$email' and Password = '$hash' ";
         $result = $DBConnect->query($query);
         //return true if user is found
-        return $result->num_rows > 0;
+        if($result)
+            return $result->num_rows > 0;
 
+        return false;
     }
 
 ?>
