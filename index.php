@@ -46,7 +46,14 @@
 							// 	echo "<form action='index.php' method='POST' ><input type='submit' value='Show Items' name='showItems'></form>";
 							// } else {
 								//display all items
-								$items = selectItems();
+								$items = selectItems();  /*Name: Jamie 
+								Surname: Gregory  
+								Student#: 16000925
+								Login
+								Declaration: This is my own work and 
+								  any code obtained from other sources
+								  will be referenced
+							*/  
 								$table = "<table>";
 								$table .= "<tr>";
 								$table .= "<td>Item Description</td>";
