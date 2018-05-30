@@ -15,13 +15,19 @@
         private $ID = "";
         private $userID = "";
         private $items;
+        private $user;
         
-        public function __construct(){
+        public function __construct($user){
             $this->items = array();
+            $this->user = $user;
         }
 
         public function addItem($item){
             $this->items[] = $item;
+        }
+
+        public function getItems(){
+            return $this->items;
         }
 
 

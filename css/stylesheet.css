@@ -29,9 +29,7 @@ body {
     top: 0%;
     left: 0%;
     margin-bottom: 0%;
-}
-
-#header h2 {
+    padding-bottom: 5%;
 }
 
 #header li {

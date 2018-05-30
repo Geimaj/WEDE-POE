@@ -25,12 +25,11 @@
 				<?php include('header.php');?>
 				<div id="content">
 					<?php
-						// include("DBQuery.php");
-						$user = getNames($_COOKIE["user"]);
+						$user = unserialize($_COOKIE["user"]);
 						unset($_COOKIE['user']);
 						setcookie('user', null, -1, '/');
-						unset($_SESSION[$user]);
-						
+						unset($_SESSION[$user->getEmail()]);
+						$_SESSION = array();
 						header('location: login.php');
 						// echo $user . " logged out";
 					?>

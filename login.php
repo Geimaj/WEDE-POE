@@ -18,7 +18,6 @@
 	<body>
 		<?php
 			include("header.php");
-			// include('DBQuery.php');
 			$email = '';
 			$password = '';
 			$error = "";
@@ -27,9 +26,10 @@
 				$password = $_POST['password'];
 
 				if(validLogin($email,$password)){
+					$user = selectUserByEmail($email);
 					//store login cookie
 					$cookie_name = "user";
-					$cookie_value = $email;
+					$cookie_value = serialize($user);
 					$cookie_time = time() + (86400 * 30); // 30 days
 					setcookie($cookie_name, $cookie_value, $cookie_time, '/');
 					header('Location: index.php');

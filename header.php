@@ -5,20 +5,33 @@
     <h2>Jamie's Just Parts</h2>
     <ul>
         <?php
-        session_start();
-            $loggedIn = "";
+            session_start();
             include("DBQuery.php");
+            include("ShoppingCart.php");
+            
+            $loggedIn = "";
+            $shoppingCart;
+
             if(isset($_COOKIE['user'])){
-                $user = getNames($_COOKIE['user']);
-                $loggedIn = '<li>User ' . $user . ' logged in</li>';
+                $serialUser = $_COOKIE['user'];
+                $user = unserialize($serialUser);
+                $userId = $user->getId();
+                $userNames = $user->getNames();
+                $loggedIn = '<li>User ' . $userNames . ' logged in</li>';
                 echo $loggedIn;
 
                 $numCartItems = '0';
                 
-                if(isset($_SESSION[$user])){
-                    $items = unserialize($_SESSION[$user]);
-                    $numCartItems = sizeof($items);
+                if(isset($_SESSION[$user->getEmail()])){
+                    //load previous cart
+                    $shoppingCart = unserialize($_SESSION[$user->getEmail()]);
+                    $numCartItems = sizeof($shoppingCart->getItems());
+                } else {
+                    //create new cart
+                    $shoppingCart = new ShoppingCart($user);
                 }
+
+                $_SESSION[$user->getEmail()] = serialize($shoppingCart);
 
                 ?>
                     <li><a href="index.php">Home</a></li>

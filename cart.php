@@ -29,8 +29,10 @@
 					echo "<h1>Your cart</h1>";
 					echo "<a href='index.php'><h2>Continue Shopping</h2></a>";
 
-					if(isset($_SESSION[$user])){
-						$userItems = unserialize($_SESSION[$user]);
+					if(isset($_SESSION[$user->getEmail()])){
+						$shoppingCart = unserialize($_SESSION[$user->getEmail()]);
+						$userItems = $shoppingCart->getItems();
+						
 						if(sizeof($userItems) > 0){
 								$table = "<table>";
 								$table .= "<tr>";

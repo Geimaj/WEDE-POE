@@ -26,23 +26,21 @@
 			<?php
 				//ensure user is logged in
 				if(isset($_COOKIE['user'])){ 
-					if(isset($_POST['itemID'])){
-						$id = $_POST['itemID'];
-						$item = selectItemById($id);
+					if(isset($_POST['item'])){
+						$serialUser = $_COOKIE['user'];
+						$user = unserialize($serialUser);
+						$item = unserialize($_POST['item']);
+						print_r($_SESSION);
+						$shoppingCart = unserialize($_SESSION[$user->getEmail()]);
 
-						$userItems = array();
-						// echo selectUserIdByEmail($_COOKIE['user']);
-						//populate existing data
-						if(isset($_SESSION[$user])){
-							$sesh = unserialize($_SESSION[$user]);
-							$userItems = $sesh;
-						} 
+						$shoppingCart->addItem($item);
 
-						$userItems[] = $item;
-						$_SESSION[$user] = serialize($userItems);
+						print_r($shoppingCart);
 
-						//set last item cookie for notification
-						$lastItem = end($userItems);
+						$_SESSION[$user->getEmail()] =  serialize($shoppingCart);
+						
+						// set last item cookie for notification
+						$lastItem = $item;
 						$cookie_name = "lastItem";
 						$cookie_value = serialize($lastItem);
 						$cookie_time = time() + (86400); // 30 days

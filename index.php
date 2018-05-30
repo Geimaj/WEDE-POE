@@ -46,14 +46,8 @@
 							// 	echo "<form action='index.php' method='POST' ><input type='submit' value='Show Items' name='showItems'></form>";
 							// } else {
 								//display all items
-								$items = selectItems();  /*Name: Jamie 
-								Surname: Gregory  
-								Student#: 16000925
-								Login
-								Declaration: This is my own work and 
-								  any code obtained from other sources
-								  will be referenced
-							*/  
+								$items = selectItems();
+								
 								$table = "<table>";
 								$table .= "<tr>";
 								$table .= "<td>Item Description</td>";
@@ -69,7 +63,8 @@
 									$table .= "<td>R $item->sellPrice</td>";
 									// create form
 									$form = "<form action='addToCart.php' method='POST'>";
-									$form .= "<input type ='hidden' name='itemID' value='$item->ID'>";
+									$serialItem = serialize($item);
+									$form .= "<input type ='hidden' name='item' value='$serialItem'>";
 									$form .= "<input type='submit' value='add to cart'>";
 									$form .= "</form>";
 									//add (form) add to cart button

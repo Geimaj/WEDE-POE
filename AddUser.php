@@ -27,7 +27,7 @@
         //redirect to login page
         header('location: login.php');
     } else { //email invalid
-        echo 'that email is already registred. <a href="#">Forgot Password?</a><br>';
+        echo 'that email is already registred. <a href="#">Forgot Password?</a><br/>';
     }
 
     function validEmail($email){
