@@ -24,7 +24,7 @@
             $lname = $data['LName'];
             $email = $data['Email'];
             $hash = $data['Password'];
-            
+
             $user = User::newUser($id,$fname,$lname,$email,$hash);
             return $user;
         }

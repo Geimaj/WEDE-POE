@@ -1,6 +1,5 @@
 <!doctype html>
 <?php
-session_start();
   /*Name: Jamie 
 	Surname: Gregory  
 	Student#: 16000925
@@ -26,25 +25,21 @@ session_start();
 			<?php
 				//ensure user is logged in
 				if(isset($_COOKIE['user'])){ 
-					if(isset($_POST['itemID'])){
-						$id = $_POST['itemID'];
-						$item = selectItemById($id);
+					if(isset($_POST['item'])){
 
-						echo "delete item $item->ID";
-						$userItems = unserialize($_SESSION[$user]);
-						echo "<pre>";
-						print_r($userItems);
-						echo "</pre>";
+						$serialShoppingCart = $_SESSION[$user->getEmail()];
+						$shoppingcart = unserialize(stripslashes($shoppingcart));
 
-						$splicePoint = array_search($item,$userItems);
-						echo "I want to delete {$item->description} from index $splicePoint";
-						$userItems = array_values($userItems);
-						unset($userItems[$splicePoint]);
+						$item = unserialize(stripslashes($_POST['item'])) ;
 
-						$_SESSION[$user] = serialize($userItems);
+						$shoppingcart->removeItem($item);
+
+						$serialShoppingCart = serialize($shoppingcart);
+						$serialShoppingCart = addslashes($serialShoppingCart);
+
+						$_SESSION[$user->getEmail()] = $serialShoppingCart;
 
 						header('location: cart.php');
-
 					}
 				}
 			?>

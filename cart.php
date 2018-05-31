@@ -30,38 +30,59 @@
 					echo "<a href='index.php'><h2>Continue Shopping</h2></a>";
 
 					if(isset($_SESSION[$user->getEmail()])){
-						$shoppingCart = unserialize($_SESSION[$user->getEmail()]);
-						$userItems = $shoppingCart->getItems();
-						
-						if(sizeof($userItems) > 0){
+						$shoppingCart = loadCart($user);
+						$cartItems = $shoppingCart->getCartItems();
+
+						if(sizeof($cartItems) > 0){
 								$table = "<table>";
 								$table .= "<tr>";
 								$table .= "<td>Item Description</td>";
+								$table .= "<td>Quantity</td>";								
 								$table .=  "<td>Price</td>";
+								$table .=  "<td>Product</td>";
 								$table .= "</tr>";
 								$total = 0;
-								foreach($userItems as $cartItem){
+								foreach($cartItems as $cartItem){
 									// echo $cartItem->ID;
+									$item = $cartItem->getItem();
+
 									$table .= "<tr>";
-									$table .= "<td><a href='showItem.php?id=$cartItem->ID'>{$cartItem->description}</a></td>";
-									$table .=  "<td>R {$cartItem->sellPrice}</td>";
-									$id = $cartItem->ID;
-									$imgPath = $cartItem->getThumbnailPath();
+									//description
+									$table .= "<td><a href='showItem.php?id={$item->getId()}'>{$item->getDescription()}</a></td>";
+									//quantity
+									$table .= "<td>{$cartItem->getQuantity()}</td>";
+									//price
+									$table .=  "<td>R {$cartItem->getItemsubtotal()}</td>";
+									$id = $item->getID();
+									//image
+									$imgPath = $item->getThumbnailPath();
 									$img = "<img src='{$imgPath}' class='itemThumbnail'>";
 									$table .= "<td>$img</td>";
-									//create form
+									//remove button
+									$serialItem = addslashes(serialize($item));
 									$form = "<form action='removeFromCart.php' method='POST'>";
-									$form .= "<input type ='hidden' name='itemID' value='$id'>";
+									$form .= "<input type ='hidden' name='item' value='$serialItem'>";
 									$form .= "<input type='submit' value='Remove from cart'>";
 									$form .= "</form>";
 									//add (form) remove from cart button
 									$table .= "<td>$form</td>";
 									$table .= "</tr>";
-									$total += $cartItem->sellPrice;
+									$total += $cartItem->getItemsubtotal();
 								}
-							$table .= "<tr><td>Total: </td><td>R $total</td></tr>";
+
+							$table .= "<tr><td>Total: <td>{$shoppingCart->getNumCartItems()}</td></td><td>R $total</td></tr>";
 							$table .= "</table>";
 							echo $table;
+
+							$checkoutButton = "<form method='POST' action=''>";
+							$checkoutButton = "<input type='submit' value='Checkout'></input>";
+							$serialShoppingCart = addSlashes(serialize($shoppingCart));
+							$checkoutButton .= "<input type ='hidden' name='item' value='{$serialShoppingCart}'>";						
+							$checkoutButton .="</form>";
+
+							echo $checkoutButton;
+
+
 						} else {
 							echo "<h3 class='error'>Your cart is empty</h3>";
 						}

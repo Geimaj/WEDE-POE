@@ -25,11 +25,9 @@
 				<?php include('header.php');?>
 				<div id="content">
 					<?php
-						$user = unserialize($_COOKIE["user"]);
-						unset($_COOKIE['user']);
-						setcookie('user', null, -1, '/');
-						unset($_SESSION[$user->getEmail()]);
-						$_SESSION = array();
+
+                        destroyUserSession();
+
 						header('location: login.php');
 						// echo $user . " logged out";
 					?>

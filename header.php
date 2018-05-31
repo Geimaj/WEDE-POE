@@ -1,3 +1,12 @@
+<?php
+  /*Name: Jamie 
+	Surname: Gregory  
+	Student#: 16000925
+	Login
+	Declaration: This is my own work and 
+	  any code obtained from other sources
+	  will be referenced
+*/  ?>
 <head>
     <link rel="stylesheet" type="text/css" href="css/stylesheet.css">
 </head>
@@ -8,30 +17,37 @@
             session_start();
             include("DBQuery.php");
             include("ShoppingCart.php");
-            
+            include ('SessionHandler.php');
+            include ('AddToCartButton.php');
+
             $loggedIn = "";
             $shoppingCart;
+            $user;
 
             if(isset($_COOKIE['user'])){
                 $serialUser = $_COOKIE['user'];
-                $user = unserialize($serialUser);
+
+                $user = loadUser($_COOKIE['user']);//selectUserByEmail($serialUser);
+
                 $userId = $user->getId();
                 $userNames = $user->getNames();
                 $loggedIn = '<li>User ' . $userNames . ' logged in</li>';
                 echo $loggedIn;
 
                 $numCartItems = '0';
-                
+//
                 if(isset($_SESSION[$user->getEmail()])){
                     //load previous cart
-                    $shoppingCart = unserialize($_SESSION[$user->getEmail()]);
-                    $numCartItems = sizeof($shoppingCart->getItems());
-                } else {
-                    //create new cart
-                    $shoppingCart = new ShoppingCart($user);
-                }
-
-                $_SESSION[$user->getEmail()] = serialize($shoppingCart);
+                    $shoppingCart = loadCart($user);
+                    $numCartItems = $shoppingCart->getNumCartItems();
+//                    print_r($shoppingCart);
+                    // $numCartItems = $shoppingCart->getNumCartItems();
+                } // else {
+//                    //create new cart
+//                    $shoppingCart = new ShoppingCart($user);
+//                }
+//
+//                saveCart($user->getEmail(), $shoppingCart);
 
                 ?>
                     <li><a href="index.php">Home</a></li>

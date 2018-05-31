@@ -27,16 +27,14 @@
 
 				if(validLogin($email,$password)){
 					$user = selectUserByEmail($email);
-					//store login cookie
-					$cookie_name = "user";
-					$cookie_value = serialize($user);
-					$cookie_time = time() + (86400 * 30); // 30 days
-					setcookie($cookie_name, $cookie_value, $cookie_time, '/');
+					saveUserSession($user);
+
 					header('Location: index.php');
 				} else {
 					$error = "<h2 class='error'>Invalid account details</h2>";
 				}
 			}
+
 		?>
 		<div id="content">
 			<form id="login-form" action=<?php echo $_SERVER['SCRIPT_NAME']?> method="POST">

@@ -12,11 +12,11 @@
 */  
 
     class Item {
-        public $ID = "";
-        public $description = "";
-        public $costPrice = "";
-        public $quantity = "";
-        public $sellPrice = "";
+        private $ID = "";
+        private $description = "";
+        private $costPrice = "";
+        private $quantity = "";
+        private $sellPrice = "";
         
         public function __construct($id,$desc,$cost,$quant, $sell){
             $this->ID = $id;
@@ -39,6 +39,18 @@
                 }
             }
             return $images; 
+        }
+
+        public function getId(){
+            return $this->ID;
+        }
+
+        public function getDescription(){
+            return $this->description;
+        }
+
+        public function getSellPrice(){
+            return $this->sellPrice;
         }
 
     }

@@ -28,17 +28,18 @@
 				if(isset($_COOKIE['user'])){ 
 					if(isset($_POST['item'])){
 						$serialUser = $_COOKIE['user'];
-						$user = unserialize($serialUser);
-						$item = unserialize($_POST['item']);
-						print_r($_SESSION);
-						$shoppingCart = unserialize($_SESSION[$user->getEmail()]);
+						$serialItem = ($_POST['item']);
 
+//						echo "serial_user: " . $serialUser;
+
+						$user = loadUser($serialUser);
+						$item = loadItem($serialItem);
+
+						$shoppingCart = loadCart($user);
 						$shoppingCart->addItem($item);
 
-						print_r($shoppingCart);
+                        saveCart($shoppingCart);
 
-						$_SESSION[$user->getEmail()] =  serialize($shoppingCart);
-						
 						// set last item cookie for notification
 						$lastItem = $item;
 						$cookie_name = "lastItem";
@@ -47,7 +48,9 @@
 						setcookie($cookie_name, $cookie_value, $cookie_time, '/');
 
 						header('location: index.php');
-					}
+					} else {
+					    echo "no item set?";
+                    }
 				}
 			?>
 		</div>

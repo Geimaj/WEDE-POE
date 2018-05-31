@@ -29,15 +29,14 @@
 					if(isset($_GET['id'])){
 						//display item details
 						$item = selectItemByID($_GET['id']);
-						echo "<h4>$item->ID</h4>";
-						echo "<h3>$item->description</h3>";
-						echo "<h4>R $item->sellPrice</h4>";
+						echo "<h4>{$item->getId()}</h4>";
+						echo "<h3>{$item->getDescription()}</h3>";
+						echo "<h4>R {$item->getSellPrice()}</h4>";
 						//disply buy button
-						$form = "<form action='addToCart.php' method='POST'>";
-						$form .= "<input type ='hidden' name='itemID' value='$item->ID'>";
-						$form .= "<input type='submit' value='add to cart'>";
-						$form .= "</form>";
-						echo $form;
+
+                        $addButton = new AddToCartButton($item);
+                        echo $addButton->render();
+
 						echo "<hr>";
 						//display images
 						$paths = $item->getImagePaths();
