@@ -27,17 +27,13 @@
 				if(isset($_COOKIE['user'])){ 
 					if(isset($_POST['item'])){
 
-						$serialShoppingCart = $_SESSION[$user->getEmail()];
-						$shoppingcart = unserialize(stripslashes($shoppingcart));
+						$shoppingcart = loadCart($user);
 
-						$item = unserialize(stripslashes($_POST['item'])) ;
+						$item = loadItem($_POST['item']) ;
 
 						$shoppingcart->removeItem($item);
 
-						$serialShoppingCart = serialize($shoppingcart);
-						$serialShoppingCart = addslashes($serialShoppingCart);
-
-						$_SESSION[$user->getEmail()] = $serialShoppingCart;
+						saveCart($shoppingcart);
 
 						header('location: cart.php');
 					}
