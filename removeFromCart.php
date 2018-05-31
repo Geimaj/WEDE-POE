@@ -19,24 +19,17 @@
 </head>
 	<body>
 		<?php
-			include("header.php");
+			include_once("header.php");
 		?>
 		<div id="content">
 			<?php
 				//ensure user is logged in
-				if(isset($_COOKIE['user'])){ 
-					if(isset($_POST['item'])){
+				if(isset($_POST['item'])){
+					$item = loadItem($_POST['item']);
+					$shoppingCart->removeItem($item);
 
-						$shoppingcart = loadCart($user);
-
-						$item = loadItem($_POST['item']) ;
-
-						$shoppingcart->removeItem($item);
-
-						saveCart($shoppingcart);
-
-						header('location: cart.php');
-					}
+					saveCart($shoppingCart);
+					header('location: cart.php');
 				}
 			?>
 		</div>

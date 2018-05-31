@@ -33,7 +33,7 @@
 						<?php
 							//display message confirimg item was added to cart
 							if(isset($_COOKIE['lastItem'])){
-								$lastItem = loadItem($_COOKIE['lastItem']);//unserialize($_COOKIE['lastItem']);
+								$lastItem = loadItem($_COOKIE['lastItem']);
 								//make sure cartItems inst empty
 								//get last cart item (was last added)
 								if($lastItem){
@@ -60,12 +60,6 @@
 									$thumbnail = "<a href='showItem.php?id=$id'><img class='itemThumbnail' src='" . $item->getThumbnailPath() . "'></a><h4>click to enlarge</h4>";
 									$table .= "<td>$thumbnail</td>";
 									$table .= "<td>R {$item->getsellPrice()}</td>";
-									// create form
-//									$form = "<form action='addToCart.php' method='POST'>";
-//									$serialItem = addSlashes(serialize($item));
-//									$form .= "<input type ='hidden' name='item' value='{$serialItem}'>";
-//									$form .= "<input type='submit' value='add to cart'>";
-//									$form .= "</form>";
 
                                     $addButton = new AddToCartButton($item);
 									//add (form) add to cart button

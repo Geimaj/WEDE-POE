@@ -15,10 +15,10 @@
     <ul>
         <?php
             session_start();
-            include("DBQuery.php");
-            include("ShoppingCart.php");
-            include ('SessionHandler.php');
-            include ('AddToCartButton.php');
+            include_once("DBQuery.php");
+            include_once("ShoppingCart.php");
+            include_once('SessionHandler.php');
+            include_once('AddToCartButton.php');
 
             $loggedIn = "";
             $shoppingCart;
@@ -27,27 +27,16 @@
             if(isset($_COOKIE['user'])){
                 $serialUser = $_COOKIE['user'];
 
-                $user = loadUser($_COOKIE['user']);//selectUserByEmail($serialUser);
+                $user = loadUser($_COOKIE['user']);
 
                 $userId = $user->getId();
                 $userNames = $user->getNames();
                 $loggedIn = '<li>User ' . $userNames . ' logged in</li>';
                 echo $loggedIn;
 
-                $numCartItems = '0';
-//
-                if(isset($_SESSION[$user->getEmail()])){
-                    //load previous cart
-                    $shoppingCart = loadCart($user);
-                    $numCartItems = $shoppingCart->getNumCartItems();
-//                    print_r($shoppingCart);
-                    // $numCartItems = $shoppingCart->getNumCartItems();
-                } // else {
-//                    //create new cart
-//                    $shoppingCart = new ShoppingCart($user);
-//                }
-//
-//                saveCart($user->getEmail(), $shoppingCart);
+                //load previous cart
+                $shoppingCart = loadCart($user);
+                $numCartItems = $shoppingCart->getNumCartItems();
 
                 ?>
                     <li><a href="index.php">Home</a></li>

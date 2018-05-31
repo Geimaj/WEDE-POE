@@ -23,14 +23,9 @@
 		?>
 		<div id="content">
 			<?php
-				//ensure user is logged in
-
-				if(isset($_COOKIE['user'])){ 
 					echo "<h1>Your cart</h1>";
 					echo "<a href='index.php'><h2>Continue Shopping</h2></a>";
 
-					if(isset($_SESSION[$user->getEmail()])){
-						$shoppingCart = loadCart($user);
 						$cartItems = $shoppingCart->getCartItems();
 
 						if(sizeof($cartItems) > 0){
@@ -86,11 +81,7 @@
 						} else {
 							echo "<h3 class='error'>Your cart is empty</h3>";
 						}
-					} else {
-						echo "<h3 class='error'>Your cart is empty</h3>";
-						
-					}
-				}
+
 			?>
 		</div>
 	</body>
