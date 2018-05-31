@@ -23,14 +23,20 @@
             $this->user = $user;
         }
 
+        public function clearCart(){
+            $this->cartItems = array();
+        }
+
         public function removeItem($item){
             foreach ($this->cartItems as $key => $value) {
-                if($value->getId() === $item->getId()){
+                if($value->getItem()->getId() === $item->getId()){
                     //decrement count
                     $value->decrementQuantity();
                     //if count == 0 remove from array
                     if($value->getQuantity() <= 0){
                         
+                        unset($this->cartItems[$key]);
+
                     }
                     return;
                 }
