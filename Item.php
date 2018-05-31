@@ -12,11 +12,11 @@
 */  
 
     class Item {
-        public $ID = "";
-        public $description = "";
-        public $costPrice = "";
-        public $quantity = "";
-        public $sellPrice = "";
+        private $ID = "";
+        private $description = "";
+        private $costPrice = "";
+        private $quantity = "";
+        private $sellPrice = "";
         
         public function __construct($id,$desc,$cost,$quant, $sell){
             $this->ID = $id;
@@ -29,6 +29,30 @@
         public function getThumbnailPath(){
             return "images/$this->ID/" . scandir("images/$this->ID")[2];
         }
+
+        public function getImagePaths(){
+            $images = [];
+            $dir = opendir("images/$this->ID");
+            while($file = readdir($dir)){
+                if($file !== '.' && $file !== '..'){
+                    $images[] = "images/$this->ID/$file";
+                }
+            }
+            return $images; 
+        }
+
+        public function getId(){
+            return $this->ID;
+        }
+
+        public function getDescription(){
+            return $this->description;
+        }
+
+        public function getSellPrice(){
+            return $this->sellPrice;
+        }
+
     }
 
 ?>

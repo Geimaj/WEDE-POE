@@ -1,19 +1,53 @@
+<?php
+  /*Name: Jamie 
+	Surname: Gregory  
+	Student#: 16000925
+	Login
+	Declaration: This is my own work and 
+	  any code obtained from other sources
+	  will be referenced
+*/  ?>
+<head>
+    <link rel="stylesheet" type="text/css" href="css/stylesheet.css">
+</head>
 <div id="header">
+    <h2>Jamie's Just Parts</h2>
     <ul>
         <?php
-            $loggedIn = "";
+            session_start();
             include("DBQuery.php");
+            include("ShoppingCart.php");
+            include ('SessionHandler.php');
+            include ('AddToCartButton.php');
+
+            $loggedIn = "";
+            $shoppingCart;
+            $user;
+
             if(isset($_COOKIE['user'])){
-                $user = getNames($_COOKIE['user']);
-                $loggedIn = '<li>User ' . $user . ' logged in</li>';
+                $serialUser = $_COOKIE['user'];
+
+                $user = loadUser($_COOKIE['user']);//selectUserByEmail($serialUser);
+
+                $userId = $user->getId();
+                $userNames = $user->getNames();
+                $loggedIn = '<li>User ' . $userNames . ' logged in</li>';
                 echo $loggedIn;
 
-                $numCartItems = '';
-
-                if(isset($_COOKIE['cartItems'])){
-                    $items = unserialize($_COOKIE['cartItems']);
-                    $numCartItems = sizeof($items);
-                }
+                $numCartItems = '0';
+//
+                if(isset($_SESSION[$user->getEmail()])){
+                    //load previous cart
+                    $shoppingCart = loadCart($user);
+                    $numCartItems = $shoppingCart->getNumCartItems();
+//                    print_r($shoppingCart);
+                    // $numCartItems = $shoppingCart->getNumCartItems();
+                } // else {
+//                    //create new cart
+//                    $shoppingCart = new ShoppingCart($user);
+//                }
+//
+//                saveCart($user->getEmail(), $shoppingCart);
 
                 ?>
                     <li><a href="index.php">Home</a></li>
@@ -28,7 +62,7 @@
                 }
                 
                 ?>
-                <li><a href="createTable.php">Recreate Database</a></li>
+                <li><a class='danger' href="createTable.php">Recreate Database</a></li>
         
     </ul>
 </div>

@@ -10,9 +10,46 @@
 
     include('DBConn.php');
     include('Item.php');
+    include('User.php');
 
-    function getItemImagePath($id){
-        return "images/$id/" . scandir("images/$id")[2];
+    function selectUserByEmail($email){
+        global $DBConnect;
+        $sql = "select * from tbl_User where email = '$email' ";
+        $result = $DBConnect->query($sql);
+        if($result){
+            $data = $result->fetch_assoc();
+
+            $id = $data['ID'];
+            $fname = $data['FName'];
+            $lname = $data['LName'];
+            $email = $data['Email'];
+            $hash = $data['Password'];
+
+            $user = User::newUser($id,$fname,$lname,$email,$hash);
+            return $user;
+        }
+
+        return null;
+    }
+
+    function selectUserById($id){
+        global $DBConnect;
+        $sql = "select * from tbl_User where id = $id ";
+        $result = $DBConnect->query($sql);
+        if($result){
+            $data = $result->fetch_assoc();
+
+            $id = $data['ID'];
+            $fname = $data['FName'];
+            $lname = $data['LName'];
+            $email = $data['Email'];
+            $hash = $data['Password'];
+            
+            $user = User::newUser($id,$fname,$lname,$email,$hash);
+            return $user;
+        }
+
+        return null;
     }
 
     function selectItems(){
@@ -86,15 +123,6 @@
         global $DBConnect;
         $result = $DBConnect->query($insert);
         return $result;
-    }
-
-    function getNames($email){
-        global $DBConnect;
-        $query = "select * from tbl_User where Email = '$email'";
-        $result = $DBConnect->query($query);
-
-        $fields = $result->fetch_assoc();
-        return $fields['FName'] . ' ' . $fields['LName'];
     }
 
     function validLogin($email,$pass){

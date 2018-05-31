@@ -12,13 +12,12 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>Your Title</title>
+		<title>Login</title>
 		<link rel="stylesheet" type="text/css" href="css/stylesheet.css">
 	</head>
 	<body>
 		<?php
 			include("header.php");
-			// include('DBQuery.php');
 			$email = '';
 			$password = '';
 			$error = "";
@@ -27,16 +26,15 @@
 				$password = $_POST['password'];
 
 				if(validLogin($email,$password)){
-					//store login cookie
-					$cookie_name = "user";
-					$cookie_value = $email;
-					$cookie_time = time() + (86400 * 30); // 30 days
-					setcookie($cookie_name, $cookie_value, $cookie_time, '/');
+					$user = selectUserByEmail($email);
+					saveUserSession($user);
+
 					header('Location: index.php');
 				} else {
 					$error = "<h2 class='error'>Invalid account details</h2>";
 				}
 			}
+
 		?>
 		<div id="content">
 			<form id="login-form" action=<?php echo $_SERVER['SCRIPT_NAME']?> method="POST">

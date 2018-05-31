@@ -25,27 +25,21 @@
 			<?php
 				//ensure user is logged in
 				if(isset($_COOKIE['user'])){ 
-					echo getNames($_COOKIE['user']);
-					if(isset($_POST['itemID'])){
-						$id = $_POST['itemID'];
-						$item = selectItemById($id);
-						$cartItems = [];
-						if(isset($_COOKIE['cartItems'])){
-							$cartItems = unserialize($_COOKIE['cartItems']);
-						}
-						
-						$splicePoint = array_search($item,$cartItems);
-						echo "I want to delete {$item->description} from index $splicePoint";
-						$cartItems = array_values($cartItems);
-						unset($cartItems[$splicePoint]);
+					if(isset($_POST['item'])){
 
-						$cookie_name = "cartItems";
-						$cookie_value = serialize($cartItems);
-						$cookie_time = time() + (86400 * 30); // 30 days
-						setcookie($cookie_name, $cookie_value, $cookie_time, '/');
+						$serialShoppingCart = $_SESSION[$user->getEmail()];
+						$shoppingcart = unserialize(stripslashes($shoppingcart));
+
+						$item = unserialize(stripslashes($_POST['item'])) ;
+
+						$shoppingcart->removeItem($item);
+
+						$serialShoppingCart = serialize($shoppingcart);
+						$serialShoppingCart = addslashes($serialShoppingCart);
+
+						$_SESSION[$user->getEmail()] = $serialShoppingCart;
 
 						header('location: cart.php');
-
 					}
 				}
 			?>

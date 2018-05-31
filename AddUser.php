@@ -1,5 +1,20 @@
 <?php
-    include("DBConn.php");
+  /*Name: Jamie 
+	Surname: Gregory  
+	Student#: 16000925
+	Login
+	Declaration: This is my own work and 
+	  any code obtained from other sources
+		will be referenced
+		
+	References:
+*/  
+?>
+<head>
+    <link rel="stylesheet" type="text/css" href="css/stylesheet.css">
+</head>
+<?php
+    include("header.php");
     //make sure email doesnt exist already
     $email = $_POST['email'];
     $fname = $_POST['FName'];
@@ -7,10 +22,12 @@
     $password = md5($_POST['password']);
 
     if(validEmail($email)){ //valid email, create user
-        echo 'valid email<br>';
+        //save user detai;s
         insertUser($fname,$lname,$email,$password);
+        //redirect to login page
+        header('location: login.php');
     } else { //email invalid
-        echo 'that email is already registred. <a href="#">Forgot Password?</a><br>';
+        echo 'that email is already registred. <a href="#">Forgot Password?</a><br/>';
     }
 
     function validEmail($email){

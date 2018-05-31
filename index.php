@@ -21,7 +21,7 @@
 		<script type="text/javascript" src="js/addToCart.js"></script>
 	</head>
 	<body>
-			<?php // Script 2.1 - predefined.php
+			<?php
 				if(!isset($_COOKIE['user'])){ //redirect to login
 					header('location: login.php');
 				} 
@@ -31,49 +31,50 @@
 				<div id="content">
 					<h1>Items</h1>
 						<?php
-							// if(!isset($_POST['showItems'])){
-							// 	echo "<form action='index.php' method='POST' ><input type='submit' value='Show Items' name='showItems'></form>";
-							// } else {
-
-								//display message confirimg item was added to cart
-								if(isset($_COOKIE['lastItem'])){
-									echo 'added item';
-									$lastItem = unserialize($_COOKIE['lastItem']);
-									//make sure cartItems inst empty
-									//get last cart item (was last added)
-									displayMessage("$lastItem->description was added to your cart for R $lastItem->sellPrice ", "cart.php");
-									//unset cookie so we dont get the message again
-									setcookie('lastItem', '', time()-1, '/');
+							//display message confirimg item was added to cart
+							if(isset($_COOKIE['lastItem'])){
+								$lastItem = loadItem($_COOKIE['lastItem']);//unserialize($_COOKIE['lastItem']);
+								//make sure cartItems inst empty
+								//get last cart item (was last added)
+								if($lastItem){
+									displayMessage("{$lastItem->getDescription()} was added to your cart for R {$lastItem->getsellPrice()} ", "cart.php");
 								}
-
+								//unset cookie so we dont get the message again
+								setcookie('lastItem', '', time()-1, '/');
+							}
+								//display all items
 								$items = selectItems();
+								
 								$table = "<table>";
 								$table .= "<tr>";
 								$table .= "<td>Item Description</td>";
+								$table .= "<td>Item Details</td>";								
 								$table .= "<td>Price</td>";								
-								$table .= "<td>Tumbnail</td>";								
 								$table .= "</tr>";
 
 								foreach($items as $item){
+									$id = $item->getId();
+									$desc = $item->getDescription();
 									$table .= "<tr>";
-									$table .= "<td>$item->description</td>";
-									$table .= "<td>R $item->sellPrice</td>";
-									$thumbnail = "<img class='itemThumbnail' src='" . $item->getThumbnailPath() . "'>";
+									$table .= "<td><a href='showItem.php?id=$id'>$desc</a></td>";
+									$thumbnail = "<a href='showItem.php?id=$id'><img class='itemThumbnail' src='" . $item->getThumbnailPath() . "'></a><h4>click to enlarge</h4>";
 									$table .= "<td>$thumbnail</td>";
+									$table .= "<td>R {$item->getsellPrice()}</td>";
 									// create form
-									$form = "<form action='addToCart.php' method='POST'>";
-									$form .= "<input type ='hidden' name='itemID' value='$item->ID'>";
-									$form .= "<input type='submit' value='add to cart'>";
-									$form .= "</form>";
+//									$form = "<form action='addToCart.php' method='POST'>";
+//									$serialItem = addSlashes(serialize($item));
+//									$form .= "<input type ='hidden' name='item' value='{$serialItem}'>";
+//									$form .= "<input type='submit' value='add to cart'>";
+//									$form .= "</form>";
+
+                                    $addButton = new AddToCartButton($item);
 									//add (form) add to cart button
-									$table .= "<td>$form</td>";
+									$table .= "<td>{$addButton->render()}</td>";
 									$table .= "</tr>";
 								}
 
 								//display table
 								echo $table;
-															
-							// }
 
 							function displayMessage($message, $target){
 								echo "<a href='$target'><div id='message'>$message</div></a>";

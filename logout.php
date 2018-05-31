@@ -12,7 +12,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Shopping</title>
+	<title>Logout</title>
 	<link rel="stylesheet" type="text/css" href="css/stylesheet.css">
 </head>
 	<body>
@@ -25,11 +25,11 @@
 				<?php include('header.php');?>
 				<div id="content">
 					<?php
-						// include("DBQuery.php");
-						$user = getNames($_COOKIE["user"]);
-						unset($_COOKIE['user']);
-						setcookie('user', null, -1, '/');
-						echo $user . " logged out";
+
+                        destroyUserSession();
+
+						header('location: login.php');
+						// echo $user . " logged out";
 					?>
 
 				</div>
