@@ -21,6 +21,8 @@
 	<body>
 		<?php
 			include("header.php");
+            include_once('views/AddToCartButton.php');
+			
 		?>
 		<div id="content">
 			<?php

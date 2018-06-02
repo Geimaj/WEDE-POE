@@ -27,6 +27,10 @@
 				} 
 				//show normal page
 				include('header.php');
+				include_once('views/AddToCartButton.php');
+				include_once('views/CheckoutButton.php');
+				
+				
 				?>
 				<div id="content">
 					<h1>Items</h1>
@@ -69,6 +73,11 @@
 
 								//display table
 								echo $table;
+								
+								// $checkout = new CheckoutButton($shoppingCart);
+
+								// echo $checkout->render();
+								// echo "after";
 
 							function displayMessage($message, $target){
 								echo "<a href='$target'><div id='message'>$message</div></a>";

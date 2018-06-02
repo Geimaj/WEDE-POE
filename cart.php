@@ -19,7 +19,10 @@
 </head>
 	<body>
 		<?php
-			include("header.php");
+			include_once("header.php");
+			include_once('views/RemoveFromCartButton.php');
+			include_once('views/CheckoutButton.php');
+			
 		?>
 		<div id="content">
 			<?php
@@ -53,14 +56,11 @@
 									$imgPath = $item->getThumbnailPath();
 									$img = "<img src='{$imgPath}' class='itemThumbnail'>";
 									$table .= "<td>$img</td>";
+									
 									//remove button
-									$serialItem = addslashes(serialize($item));
-									$form = "<form action='removeFromCart.php' method='POST'>";
-									$form .= "<input type ='hidden' name='item' value='$serialItem'>";
-									$form .= "<input type='submit' value='Remove from cart'>";
-									$form .= "</form>";
-									//add (form) remove from cart button
-									$table .= "<td>$form</td>";
+									$removeButton = new RemoveFromCartButton($item);
+									$table .= "<td>{$removeButton->render()}</td>";
+
 									$table .= "</tr>";
 									$total += $cartItem->getItemsubtotal();
 								}
@@ -69,13 +69,8 @@
 							$table .= "</table>";
 							echo $table;
 
-							$checkoutButton = "<form method='POST' action=''>";
-							$checkoutButton = "<input type='submit' value='Checkout'></input>";
-							$serialShoppingCart = addSlashes(serialize($shoppingCart));
-							$checkoutButton .= "<input type ='hidden' name='item' value='{$serialShoppingCart}'>";						
-							$checkoutButton .="</form>";
-
-							echo $checkoutButton;
+							$checkoutButton = new CheckoutButton($shoppingCart);
+							echo $checkoutButton->render();
 
 
 						} else {

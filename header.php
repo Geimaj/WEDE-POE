@@ -18,7 +18,7 @@
             include_once("DBQuery.php");
             include_once("ShoppingCart.php");
             include_once('SessionHandler.php');
-            include_once('AddToCartButton.php');
+            // include_once('views/AddToCartButton.php');
 
             $loggedIn = "";
             $shoppingCart;
