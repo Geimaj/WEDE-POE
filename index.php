@@ -61,8 +61,8 @@
 									$table .= "<td>$thumbnail</td>";
 									$table .= "<td>R {$item->getsellPrice()}</td>";
 
-                                    $addButton = new AddToCartButton($item);
-									//add (form) add to cart button
+									$addButton = new AddToCartButton($item);
+
 									$table .= "<td>{$addButton->render()}</td>";
 									$table .= "</tr>";
 								}

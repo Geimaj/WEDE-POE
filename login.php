@@ -40,10 +40,10 @@
 			<form id="login-form" action=<?php echo $_SERVER['SCRIPT_NAME']?> method="POST">
 				<?php echo $error; ?>
 				<label for="email">Email</label>
-				<input type="email" name="email" id="email" value=<?php echo $email ?> >
+				<input required type="email" name="email" id="email" value=<?php echo $email ?> >
 				</br>
 				<label for="password">Password</label>
-				<input type="password" name="password" id="password" value=<?php echo $password ?>>
+				<input required type="password" name="password" id="password" value=<?php echo $password ?>>
 				</br>
 				<input type="submit" name="submit" value="login">
 				

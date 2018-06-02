@@ -53,6 +53,10 @@
             return $this->sellPrice;
         }
 
+        public function getQuantity(){
+            return $this->quantity;
+        }
+
     }
 
 ?>

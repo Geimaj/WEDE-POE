@@ -16,11 +16,13 @@
         private $form;
         private $action;
         private $method;
+        private $item;
 
         public function __construct($item)
         {
             $this->method = "POST";
             $this->action = "addToCart.php";
+            $this->item = $item;
 
             $this->form = "<form action='$this->action' method='$this->method'>";
             $this->form .= "<input type='submit' value='Add to Cart'/>";
@@ -28,11 +30,14 @@
             $this->form .= "<input type='hidden' name ='item' value='{$serialItem}'/>";
             $this->form .= "</form>";
 
-
         }
 
         public function render(){
-            return $this->form;
+            if($this->item->getQuantity() > 0){
+                return $this->form;
+            } else {
+                return "Out of stock";
+            }
         }
 
     }

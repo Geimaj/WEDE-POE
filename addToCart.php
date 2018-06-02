@@ -25,17 +25,12 @@
 		<div id="content">
 			<?php
 				//ensure user is logged in
-				if(isset($_COOKIE['user'])){ 
+				// if(isset($_COOKIE['user'])){ 
 					if(isset($_POST['item'])){
-						$serialUser = $_COOKIE['user'];
 						$serialItem = ($_POST['item']);
-
-//						echo "serial_user: " . $serialUser;
-
-						$user = loadUser($serialUser);
 						$item = loadItem($serialItem);
 
-						$shoppingCart = loadCart($user);
+						// $shoppingCart = loadCart($user);
 						$shoppingCart->addItem($item);
 
                         saveCart($shoppingCart);
@@ -51,7 +46,7 @@
 					} else {
 					    echo "no item set?";
                     }
-				}
+				// }
 			?>
 		</div>
 	</body>
