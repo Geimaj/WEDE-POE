@@ -42,6 +42,13 @@
                     <li><a href="index.php">Home</a></li>
                     <li><a href="cart.php">Cart<?php echo "($numCartItems)" ?></a></li>
                     <li><a href="logout.php">Logout</a></li>
+
+                    <?php
+                        if($user->isRoot()){
+                            echo "<a href='admin.php'>Admin</a>";
+                        }
+                    ?>
+
                     <?php
                 } else {
                     ?>
@@ -52,6 +59,8 @@
                 
                 ?>
                 <li><a class='danger' href="createTable.php">Recreate Database</a></li>
+
+
         
     </ul>
 </div>

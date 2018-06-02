@@ -13,18 +13,20 @@
         private $lname;
         private $email;
         private $hash;
+        private $root;
 
         public function __construct(){
-
+            $this->root = false;
         }
 
-        public static function newUser($id, $fname, $lname, $email, $hash){
+        public static function newUser($id, $fname, $lname, $email, $hash,$root){
             $user = new User();
             $user->setID($id);
             $user->setFname($fname);
             $user->setLname($lname);
             $user->setEmail($email);
             $user->setHash($hash);
+            $user->setRoot($root);
             
             return $user;
         }
@@ -49,6 +51,10 @@
             $this->hash = $hash;
         }
 
+        public function setRoot($root){
+            $this->root = $root;
+        }
+
         public function getId(){
             return $this->id;
         }
@@ -59,6 +65,10 @@
 
         public function getEmail(){
             return $this->email;
+        }
+
+        public function isRoot(){
+            return $this->root;
         }
 
     }

@@ -24,8 +24,9 @@
             $lname = $data['LName'];
             $email = $data['Email'];
             $hash = $data['Password'];
-
-            $user = User::newUser($id,$fname,$lname,$email,$hash);
+            $root = $data['root'];
+            
+            $user = User::newUser($id,$fname,$lname,$email,$hash,$root);
             return $user;
         }
 
@@ -44,8 +45,9 @@
             $lname = $data['LName'];
             $email = $data['Email'];
             $hash = $data['Password'];
+            $root = $data['root'];
             
-            $user = User::newUser($id,$fname,$lname,$email,$hash);
+            $user = User::newUser($id,$fname,$lname,$email,$hash,$root);
             return $user;
         }
 
