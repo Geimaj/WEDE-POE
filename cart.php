@@ -22,7 +22,8 @@
 			include_once("header.php");
 			include_once('views/RemoveFromCartButton.php');
 			include_once('views/CheckoutButton.php');
-			
+            include_once('views/Table.php');
+
 		?>
 		<div id="content">
 			<?php
@@ -32,42 +33,51 @@
 						$cartItems = $shoppingCart->getCartItems();
 
 						if(sizeof($cartItems) > 0){
-								$table = "<table>";
-								$table .= "<tr>";
-								$table .= "<td>Item Description</td>";
-								$table .= "<td>Quantity</td>";								
-								$table .=  "<td>Price</td>";
-								$table .=  "<td>Product</td>";
-								$table .= "</tr>";
+
+                                $table = new Table();
+                                $table->addHeading("Item");
+                                $table->addHeading("Quantity");
+                                $table->addHeading("Price");
+                                $table->addHeading("product");
+
+
 								$total = 0;
 								foreach($cartItems as $cartItem){
 									// echo $cartItem->ID;
 									$item = $cartItem->getItem();
 
-									$table .= "<tr>";
+									$data = [];
+
 									//description
-									$table .= "<td><a href='showItem.php?id={$item->getId()}'>{$item->getDescription()}</a></td>";
+									$desc = "<a href='showItem.php?id={$item->getId()}'>{$item->getDescription()}</a>";
 									//quantity
-									$table .= "<td>{$cartItem->getQuantity()}</td>";
+									$quantity = $cartItem->getQuantity();
 									//price
-									$table .=  "<td>R {$cartItem->getItemsubtotal()}</td>";
+									$price =  "R {$cartItem->getItemsubtotal()}";
 									$id = $item->getID();
 									//image
 									$imgPath = $item->getThumbnailPath();
 									$img = "<img src='{$imgPath}' class='itemThumbnail'>";
-									$table .= "<td>$img</td>";
-									
+
 									//remove button
 									$removeButton = new RemoveFromCartButton($item);
-									$table .= "<td>{$removeButton->render()}</td>";
+									$remove = "{$removeButton->render()}";
 
-									$table .= "</tr>";
+									$data[] = $desc;
+                                    $data[] = $quantity;
+                                    $data[] = $price;
+                                    $data[] = $img;
+                                    $data[] = $remove;
+
+                                    $table->addDataRow($data);
+
 									$total += $cartItem->getItemsubtotal();
 								}
 
-							$table .= "<tr><td>Total: <td>{$shoppingCart->getNumCartItems()}</td></td><td>R $total</td></tr>";
-							$table .= "</table>";
-							echo $table;
+                            $data = ["Total:", $shoppingCart->getNumCartItems(), $total];
+                            $table->addDataRow($data);
+
+							echo $table->render();
 
 							$checkoutButton = new CheckoutButton($shoppingCart);
 							echo $checkoutButton->render();

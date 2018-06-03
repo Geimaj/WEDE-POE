@@ -5,8 +5,9 @@
     include_once('views/CheckoutButton.php');
     
     echo "<h2>Order Summary</h2>";
-
+ 
     //populate table
+
 
     $headings = ['Item', "Quantity","Price","Subtotal"];
     $data = [];
@@ -15,13 +16,13 @@
         $dataRow = [];
         $dataRow[] = $value->getItem()->getDescription();
         $dataRow[] = $value->getQuantity();
-        $dataRow[] = $value->getItem()->getSellPrice();
-        $dataRow[] = $value->getItemSubtotal();
+        $dataRow[] = "R " . $value->getItem()->getSellPrice();
+        $dataRow[] = "R " . $value->getItemSubtotal();
         
         $data[] = $dataRow;
     }
 
-    $table = new Table($headings, $data);    
+    $table = Table::newTable($headings, $data);    
     echo $table->render();
 
     $confirmButton = new CheckoutButton($shoppingCart);

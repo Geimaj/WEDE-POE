@@ -26,9 +26,10 @@
 					header('location: login.php');
 				} 
 				//show normal page
-				include('header.php');
+				include_once('header.php');
 				include_once('views/AddToCartButton.php');
 				include_once('views/CheckoutButton.php');
+				include_once('views/Table.php');
 				
 				
 				?>
@@ -48,31 +49,29 @@
 							}
 								//display all items
 								$items = selectItems();
-								
-								$table = "<table>";
-								$table .= "<tr>";
-								$table .= "<td>Item Description</td>";
-								$table .= "<td>Item Details</td>";								
-								$table .= "<td>Price</td>";								
-								$table .= "</tr>";
+
+								$table = new Table();
+								$table->addHeading("Item");
+                                $table->addHeading("Image");
+                                $table->addHeading("Price");
+
 
 								foreach($items as $item){
 									$id = $item->getId();
 									$desc = $item->getDescription();
-									$table .= "<tr>";
-									$table .= "<td><a href='showItem.php?id=$id'>$desc</a></td>";
-									$thumbnail = "<a href='showItem.php?id=$id'><img class='itemThumbnail' src='" . $item->getThumbnailPath() . "'></a><h4>click to enlarge</h4>";
-									$table .= "<td>$thumbnail</td>";
-									$table .= "<td>R {$item->getsellPrice()}</td>";
 
 									$addButton = new AddToCartButton($item);
 
-									$table .= "<td>{$addButton->render()}</td>";
-									$table .= "</tr>";
+                                    $data = ["<a href='showItem.php?id=$id'>$desc</a>"];
+                                    $data[] = "<a href='showItem.php?id=$id'><img class='itemThumbnail' src='" . $item->getThumbnailPath() . "'></a><h4>click to enlarge</h4>";
+                                    $data[] = "R {$item->getsellPrice()}";
+                                    $data[] = $addButton->render();
+
+                                    $table->addDataRow($data);
 								}
 
 								//display table
-								echo $table;
+								echo $table->render();
 								
 								// $checkout = new CheckoutButton($shoppingCart);
 
