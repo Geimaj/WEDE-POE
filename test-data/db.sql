@@ -3,10 +3,11 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 02, 2018 at 07:25 PM
+-- Generation Time: Jun 03, 2018 at 10:45 PM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 7.2.5
 
+SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
@@ -46,9 +47,9 @@ CREATE TABLE IF NOT EXISTS `tbl_Item` (
 --
 
 INSERT INTO `tbl_Item` (`ID`, `Description`, `CostPrice`, `Quantity`, `SellPrice`) VALUES
-('77R1934015A00', 'Giada F300/G300/I58/I39/F200/I200/I57 AC', 208, 421, 299),
+('77R1934015A00', 'Giada F300/G300/I58/I39/F200/I200/I57 AC', 208, 420, 299),
 ('AW-CB161H', 'Giada Wifi Bluetooth Mini PCI Module', 183, 59, 249),
-('D67-N1-7100U40H0G-GIA', 'Giada D67 i3-7100U 2xDDR4 2133Mhz 1xRS232', 4723, 5, 7695),
+('D67-N1-7100U40H0G-GIA', 'Giada D67 i3-7100U 2xDDR4 2133Mhz 1xRS232', 4723, 30, 7695),
 ('D67-N1-7200U40H0G-GIA', 'Giada D67 i5-7200U 2xDDR4 2133Mhz 1xRS232', 5526, 69, 8995),
 ('F105D-BQ200', 'Giada F105D Fanless Cel N3450 2GB', 2326, 400, 3789),
 ('F110D-BD000', 'Giada F110D Fanless Cel J1900 2xRJ45', 2150, 900, 3499),
@@ -75,7 +76,12 @@ CREATE TABLE IF NOT EXISTS `tbl_Order` (
   `OrderDate` date NOT NULL,
   PRIMARY KEY (`ID`),
   KEY `FK_UserID` (`UserID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `tbl_Order`
+--
+
 
 -- --------------------------------------------------------
 
@@ -89,10 +95,11 @@ CREATE TABLE IF NOT EXISTS `tbl_OrderItem` (
   `OrderID` int(11) NOT NULL,
   `ItemID` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `QuotedPrice` double NOT NULL,
+  `Quantity` int(11) NOT NULL,
   PRIMARY KEY (`ID`),
   KEY `FK_OrderID` (`OrderID`),
   KEY `FK_ItemID` (`ItemID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -163,6 +170,7 @@ ALTER TABLE `tbl_Order`
 ALTER TABLE `tbl_OrderItem`
   ADD CONSTRAINT `FK_ItemID` FOREIGN KEY (`ItemID`) REFERENCES `tbl_Item` (`ID`),
   ADD CONSTRAINT `FK_OrderID` FOREIGN KEY (`OrderID`) REFERENCES `tbl_Order` (`ID`);
+SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

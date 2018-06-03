@@ -29,14 +29,52 @@
             <?php
 
                 $sql = implode('',$databaseFile);
+                $queries = explode(';',$sql);
 
-                $result = $DBConnect->multi_query($sql);
 
-                if($result){
-                    echo "Sucsessfully recreated db";
-                } else {
-                    echo "Failed recreating db";
+                $output = "";
+                $errorCount = 0;
+
+                foreach ($queries as $query){
+                    $class = "error";
+                    if(strlen($query) >= 1) {
+                        $result = $DBConnect->query($query);
+                        if ($result) {
+                            $class = 'sucsess';
+                        } else {
+                            $errorCount++;
+                        }
+
+                        $mark = ($result === true) ? "pass" : "fail";
+
+                        $output .= "<div class='$class'>";
+                        $output .= "<h3>{$mark}</h3>";
+                        $output .= $query;
+                        $output .= "<hr>";
+                        $output .= "</div>";
+                    }
                 }
+
+                $headingClass;
+
+                if($errorCount > 0){
+                    $headingClass = "error";
+                } else {
+                    $headingClass = "sucsess";
+                }
+
+                echo "<h1 class='$headingClass'>Script run with $errorCount errors.</h1>";
+
+                echo $output;
+
+                //
+//                $result = $DBConnect->multi_query($sql);
+
+//                if($result){
+//                    echo "Sucsessfully recreated db";
+//                } else {
+//                    echo "Failed recreating db";
+//                }
 
             ?>
         </div>

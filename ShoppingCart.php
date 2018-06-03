@@ -23,7 +23,16 @@
             $this->user = $user;
         }
 
-        public function clearCart(){
+        public function getTotalCost(){
+            $total = 0;
+            foreach ($this->cartItems as $cartItem){
+                $item = $cartItem->getItem();
+                $total += $item->getSellPrice() * $cartItem->getQuantity();
+            }
+            return $total;
+        }
+
+        public function emptyCart(){
             $this->cartItems = array();
         }
 

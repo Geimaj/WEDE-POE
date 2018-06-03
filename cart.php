@@ -24,12 +24,25 @@
 			include_once('views/CheckoutButton.php');
             include_once('views/Table.php');
 
-		?>
+
+
+            if(isset($_GET['inc'])){
+                $index = $_GET['inc'];
+                $shoppingCart->getCartItems()[$index]->incrementQuantity();
+            } else if(isset($_GET['dec'])){
+                $index = $_GET['dec'];
+                $shoppingCart->getCartItems()[$index]->decrementQuantity();
+            }
+            saveCart($shoppingCart);
+            unset($_GET['inc']);
+
+
+        ?>
 		<div id="content">
 			<?php
 					echo "<h1>Your cart</h1>";
 					echo "<a href='index.php'><h2>Continue Shopping</h2></a>";
-
+                        $shoppingCart = loadCart($user);
 						$cartItems = $shoppingCart->getCartItems();
 
 						if(sizeof($cartItems) > 0){
@@ -37,12 +50,13 @@
                                 $table = new Table();
                                 $table->addHeading("Item");
                                 $table->addHeading("Quantity");
-                                $table->addHeading("Price");
+                                $table->addHeading("Cost");
+                                $table->addHeading("Subtotal");
                                 $table->addHeading("product");
 
 
 								$total = 0;
-								foreach($cartItems as $cartItem){
+								foreach($cartItems as $index => $cartItem){
 									// echo $cartItem->ID;
 									$item = $cartItem->getItem();
 
@@ -52,8 +66,9 @@
 									$desc = "<a href='showItem.php?id={$item->getId()}'>{$item->getDescription()}</a>";
 									//quantity
 									$quantity = $cartItem->getQuantity();
+									$quantity .= "<a href='{$_SERVER['SCRIPT_NAME']}?inc={$index}'>+</a><a href='{$_SERVER['SCRIPT_NAME']}?dec={$index}'>-</a>";
 									//price
-									$price =  "R {$cartItem->getItemsubtotal()}";
+									$price =  "R {$item->getSellPrice()}";
 									$id = $item->getID();
 									//image
 									$imgPath = $item->getThumbnailPath();
@@ -66,6 +81,7 @@
 									$data[] = $desc;
                                     $data[] = $quantity;
                                     $data[] = $price;
+                                    $data[] = "R" . $cartItem->getItemSubtotal();
                                     $data[] = $img;
                                     $data[] = $remove;
 
@@ -74,7 +90,7 @@
 									$total += $cartItem->getItemsubtotal();
 								}
 
-                            $data = ["Total:", $shoppingCart->getNumCartItems(), $total];
+                            $data = ["Total:", $shoppingCart->getNumCartItems(), "R " . $total];
                             $table->addDataRow($data);
 
 							echo $table->render();

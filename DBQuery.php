@@ -12,6 +12,53 @@
     include('Item.php');
     include('User.php');
 
+    //cart
+    function commitCart($cart){
+        global $DBConnect;
+
+        $id = insertOrder($cart);
+
+        if($id >= 0){
+
+            foreach ($cart->getCartItems() as $cartItem){
+                $item = $cartItem->getItem();
+
+                $sql = "INSERT INTO `tbl_OrderItem`( `OrderID`, `ItemID`, `QuotedPrice`) VALUES ($id, '{$item->getId()}', {$item->getSellPrice()})";
+                $result = $DBConnect->query($sql);
+                if(!$result){
+                    return false;
+                } else {
+                    //update item quantity
+                    if(!update("tbl_Item", " '{$item->getId()}' ", ['quantity'], [$item->getQuantity() - $cartItem->getQuantity()])){
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    function insertOrder($shoppingCart){
+        global $DBConnect;
+
+        $sql = "INSERT INTO `tbl_Order`(`UserID`, `OrderDate`) VALUES ({$shoppingCart->getUser()->getID()},CURRENT_DATE())";
+
+        $result = $DBConnect->query($sql);
+        if($result){
+            $sql = "SELECT LAST_INSERT_ID()";
+            $result = $DBConnect->query($sql);
+
+            return $result->fetch_assoc()['LAST_INSERT_ID()'];
+        }
+            return -1;
+
+    }
+
+    //user
+
     function selectUserByEmail($email){
         global $DBConnect;
         $sql = "select * from tbl_User where email = '$email' ";
@@ -54,6 +101,9 @@
         return null;
     }
 
+    //item
+
+
     function selectItems(){
         global $DBConnect;
         $items = array();
@@ -93,6 +143,29 @@
             echo 'query failed';
         }
         return null;
+    }
+
+    //util
+
+    function update($tatbleName, $id, $cols, $fields){
+        global $DBConnect;
+
+        $update = "update $tatbleName set " ;
+
+        foreach ($cols as $i => $col){
+            $update .= "$col=";
+            $update .= "{$fields[$i]}";
+            $update .= ", ";
+        }
+
+        //remove last comma
+        $update = substr($update, 0, strlen($update)-2);
+        $update .= " where ID = {$id}";
+
+
+        $result = $DBConnect->query($update);
+
+        return $result;
     }
 
     function insert($tableName,$columns,$data){
