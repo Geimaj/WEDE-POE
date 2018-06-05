@@ -39,7 +39,7 @@
                 $numCartItems = $shoppingCart->getNumCartItems();
 
                 ?>
-                    <li><a href="index.php">Home</a></li>
+                    <li><a href="index.php">Shop</a></li>
                     <li><a href="cart.php">Cart<?php echo "($numCartItems)" ?></a></li>
                     <li><a href="logout.php">Logout</a></li>
 

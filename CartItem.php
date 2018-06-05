@@ -39,10 +39,12 @@
         }
 
         public function incrementQuantity(){
+            $this->item->decrementQuantityOnHand();
             return $this->quantity++;
         }
 
         public function decrementQuantity(){
+            $this->item->incrementQuantityOnHand();
             return $this->quantity--;
         }
 

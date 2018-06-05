@@ -34,7 +34,8 @@
 				
 				?>
 				<div id="content">
-					<h1>Items</h1>
+					<h1>Products</h1>
+                    <h3>Hand curated electronics to complement any enthusiasts arsenal </h3>
 						<?php
 							//display message confirimg item was added to cart
 							if(isset($_COOKIE['lastItem'])){
@@ -54,9 +55,25 @@
 								$table->addHeading("Item");
                                 $table->addHeading("Image");
                                 $table->addHeading("Price");
+                                $table->addHeading("Availability");
+
+                                $currentItems = $shoppingCart->getCartItems();
+
+								foreach($items as $i => $item){
+								    $quantity = 0;
+                                    $cartString = "";
+
+								    //check if item is in cart, use that quantity to keep running total of quantity
+                                    $index = $shoppingCart->getItemIndex($item);
+
+                                    if($index >= 0){
+                                        $item = $currentItems[$index]->getItem();
+                                        $cartString = "({$shoppingCart->getNumItems($item)})";
+                                    }
 
 
-								foreach($items as $item){
+                                    $quantity = $item->getQuantityOnHand();
+
 									$id = $item->getId();
 									$desc = $item->getDescription();
 
@@ -65,7 +82,8 @@
                                     $data = ["<a href='showItem.php?id=$id'>$desc</a>"];
                                     $data[] = "<a href='showItem.php?id=$id'><img class='itemThumbnail' src='" . $item->getThumbnailPath() . "'></a><h4>click to enlarge</h4>";
                                     $data[] = "R {$item->getsellPrice()}";
-                                    $data[] = $addButton->render();
+                                    $data[] = $quantity . " units available";
+                                    $data[] = $cartString . $addButton->render();
 
                                     $table->addDataRow($data);
 								}

@@ -23,6 +23,24 @@
             $this->user = $user;
         }
 
+        public function getItemIndex($item){
+            foreach ($this->cartItems as $i => $cartItem){
+                if($cartItem->getItem()->getID() === $item->getID()){
+                    return $i;
+                }
+            }
+
+            return -1;
+        }
+
+        public function getNumItems($item){
+            $index = $this->getItemIndex($item);
+            if($index >= 0){
+                return $this->cartItems[$index]->getQuantity();
+            }
+            return -1;
+        }
+
         public function getTotalCost(){
             $total = 0;
             foreach ($this->cartItems as $cartItem){
@@ -39,14 +57,7 @@
         public function removeItem($item){
             foreach ($this->cartItems as $key => $value) {
                 if($value->getItem()->getId() === $item->getId()){
-                    //decrement count
-                    $value->decrementQuantity();
-                    //if count == 0 remove from array
-                    if($value->getQuantity() <= 0){
-                        
                         unset($this->cartItems[$key]);
-
-                    }
                     return;
                 }
             }
@@ -55,13 +66,15 @@
         public function addItem($item){
             
             //find if item already in cart, increment count
-            foreach($this->cartItems as $key => $value){
-                if($value->getItem()->getId() === $item->getId()){
-                    $value->incrementQuantity();
+            foreach($this->cartItems as $key => $cItem){
+                if($cItem->getItem()->getId() === $item->getId()){
+                    $cItem->incrementQuantity();
+//                    $cItem->getItem()->decrementQuantityOnHand();
                     return;
                 }
             }
 
+            $item->decrementQuantityOnHand();
             $cartItem = new CartItem($item);
             //item not yet in cart, add new item
             $this->cartItems[] = $cartItem;

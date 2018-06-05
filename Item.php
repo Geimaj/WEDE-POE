@@ -15,14 +15,14 @@
         private $ID = "";
         private $description = "";
         private $costPrice = "";
-        private $quantity = "";
+        private $quantityOnHand = "";
         private $sellPrice = "";
         
         public function __construct($id,$desc,$cost,$quant, $sell){
             $this->ID = $id;
             $this->description = $desc;
             $this->costPrice = $cost;
-            $this->quantity = $quant;
+            $this->quantityOnHand = $quant;
             $this->sellPrice = $sell;
         }
 
@@ -53,9 +53,18 @@
             return $this->sellPrice;
         }
 
-        public function getQuantity(){
-            return $this->quantity;
+        public function getQuantityOnHand(){
+            return $this->quantityOnHand;
         }
+
+        public function decrementQuantityOnHand(){
+            $this->quantityOnHand--;
+        }
+
+        public function incrementQuantityOnHand(){
+            $this->quantityOnHand++;
+        }
+
 
     }
 

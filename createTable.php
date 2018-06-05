@@ -40,12 +40,12 @@
                     if(strlen($query) >= 1) {
                         $result = $DBConnect->query($query);
                         if ($result) {
-                            $class = 'sucsess';
+                            $class = 'success';
                         } else {
                             $errorCount++;
                         }
 
-                        $mark = ($result === true) ? "pass" : "fail";
+                        $mark = ($result === true) ? "success" : "fail";
 
                         $output .= "<div class='$class'>";
                         $output .= "<h3>{$mark}</h3>";

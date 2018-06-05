@@ -24,14 +24,16 @@
 			include_once('views/CheckoutButton.php');
             include_once('views/Table.php');
 
-
-
             if(isset($_GET['inc'])){
                 $index = $_GET['inc'];
                 $shoppingCart->getCartItems()[$index]->incrementQuantity();
             } else if(isset($_GET['dec'])){
                 $index = $_GET['dec'];
-                $shoppingCart->getCartItems()[$index]->decrementQuantity();
+                $cItem = $shoppingCart->getCartItems()[$index];
+                $cItem->decrementQuantity();
+                if($shoppingCart->getNumItems($cItem->getItem()) <= 0) {
+                    $shoppingCart->removeItem($cItem->getItem());
+                }
             }
             saveCart($shoppingCart);
             unset($_GET['inc']);
@@ -58,25 +60,33 @@
 								$total = 0;
 								foreach($cartItems as $index => $cartItem){
 									// echo $cartItem->ID;
-									$item = $cartItem->getItem();
+									$cItem = $cartItem->getItem();
 
 									$data = [];
 
 									//description
-									$desc = "<a href='showItem.php?id={$item->getId()}'>{$item->getDescription()}</a>";
+									$desc = "<a href='showItem.php?id={$cItem->getId()}'>{$cItem->getDescription()}</a>";
 									//quantity
 									$quantity = $cartItem->getQuantity();
-									$quantity .= "<a href='{$_SERVER['SCRIPT_NAME']}?inc={$index}'>+</a><a href='{$_SERVER['SCRIPT_NAME']}?dec={$index}'>-</a>";
+									$plusMinus = "";
+									if($cartItem->getItem()->getQuantityOnHand() > 0){
+									    $plusMinus .= "<a href='{$_SERVER['SCRIPT_NAME']}?inc={$index}'>+</a>";
+                                    }
+
+                                    $plusMinus .= "<a href='{$_SERVER['SCRIPT_NAME']}?dec={$index}'>-</a>";
+
+									$quantity .= $plusMinus;
 									//price
-									$price =  "R {$item->getSellPrice()}";
-									$id = $item->getID();
+									$price =  "R {$cItem->getSellPrice()}";
+									$id = $cItem->getID();
 									//image
-									$imgPath = $item->getThumbnailPath();
+									$imgPath = $cItem->getThumbnailPath();
 									$img = "<img src='{$imgPath}' class='itemThumbnail'>";
 
 									//remove button
-									$removeButton = new RemoveFromCartButton($item);
+									$removeButton = new RemoveFromCartButton($cItem);
 									$remove = "{$removeButton->render()}";
+
 
 									$data[] = $desc;
                                     $data[] = $quantity;

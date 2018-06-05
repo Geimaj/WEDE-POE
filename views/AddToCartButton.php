@@ -26,7 +26,7 @@
         }
 
         public function render(){
-            if($this->item->getQuantity() > 0){
+            if($this->item->getQuantityOnHand() > 0){
                 return parent::render();
             } else {
                 return "Out of stock";

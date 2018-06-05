@@ -19,6 +19,7 @@
 	<link rel="stylesheet" type="text/css" href="css/stylesheet.css">
 </head>
 	<body>
+        <pre>
 		<?php
 			include("header.php");
 		?>
@@ -30,10 +31,7 @@
 						$serialItem = ($_POST['item']);
 						$item = loadItem($serialItem);
 
-						// $shoppingCart = loadCart($user);
-						$shoppingCart->addItem($item);
-
-                        saveCart($shoppingCart);
+                        addItem($item);
 
 						// set last item cookie for notification
 						$lastItem = $item;
@@ -42,12 +40,22 @@
 						$cookie_time = time() + (86400); // 30 days
 						setcookie($cookie_name, $cookie_value, $cookie_time, '/');
 
+//						print_r($shoppingCart);
+
 						header('location: index.php');
 					} else {
 					    echo "no item set?";
                     }
 				// }
+
+                function addItem($item){
+                    global $shoppingCart;
+                    $shoppingCart->addItem($item);
+                    saveCart($shoppingCart);
+                }
+
 			?>
 		</div>
+        </pre>
 	</body>
 </html>

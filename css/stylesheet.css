@@ -76,6 +76,10 @@ body {
     color: red;
 }
 
+.success h3{
+    color: #327a3f;
+}
+
 .itemThumbnail {
     height: 6em;
     widows: 6em;

@@ -15,27 +15,30 @@
     //cart
     function commitCart($cart){
         global $DBConnect;
-
+        //create entry in tbl_order and save id
         $id = insertOrder($cart);
-
+        //make sure tbl_order entry was sucssesful
         if($id >= 0){
 
             foreach ($cart->getCartItems() as $cartItem){
                 $item = $cartItem->getItem();
-
-                $sql = "INSERT INTO `tbl_OrderItem`( `OrderID`, `ItemID`, `QuotedPrice`) VALUES ($id, '{$item->getId()}', {$item->getSellPrice()})";
+                //create entry in tbl_orderItem
+                $sql = "INSERT INTO `tbl_OrderItem`( `OrderID`, `ItemID`, `QuotedPrice`,`Quantity`) VALUES ($id, '{$item->getId()}', {$item->getSellPrice()}, {$cartItem->getQuantity()})";
                 $result = $DBConnect->query($sql);
+                //ensure order_line was inserted
                 if(!$result){
                     return false;
                 } else {
                     //update item quantity
-                    if(!update("tbl_Item", " '{$item->getId()}' ", ['quantity'], [$item->getQuantity() - $cartItem->getQuantity()])){
+                    //get current quantity from DB
+                    if(!update("tbl_Item", " '{$item->getId()}' ", ['quantity'], [$item->getQuantity()])){
                         return false;
                     }
+
                 }
             }
-
-            return true;
+            //return order id if successful
+            return $id;
         }
 
         return false;
@@ -198,6 +201,7 @@
         global $DBConnect;
         $result = $DBConnect->query($insert);
         return $result;
+
     }
 
     function validLogin($email,$pass){
