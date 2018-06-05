@@ -148,6 +148,36 @@
         return null;
     }
 
+    function updateItem($item){
+        $cols = ["ID","Description","CostPrice","Quantity","SellPrice"];
+        $data = [" '{$item->getID()}' "," ' {$item->getDescription()} ' ",$item->getCostPrice(),$item->getQuantityOnHand(),$item->getSellPrice()];
+        update('tbl_Item'," '{$item->getID()}'", $cols, $data );
+    }
+
+    function insertItem($item){
+        $cols = ["ID","Description","CostPrice","Quantity","SellPrice"];
+        $data = [" '{$item->getID()}' "," ' {$item->getDescription()} ' ",$item->getCostPrice(),$item->getQuantityOnHand(),$item->getSellPrice()];
+//        insert('tbl_Item', $cols, $data );
+
+        $insert = "insert into tbl_Item(ID,Description,CostPrice,Quantity,SellPrice) values({$data[0]},{$data[1]},{$data[2]},{$data[3]},{$data[4]})";
+        global $DBConnect;
+        $result = $DBConnect->query($insert);
+
+        return $result;
+
+    }
+
+    function dropItem($item){
+        echo "dropping {$item->getDescription()}";
+        $del = "delete from tbl_Item where ID = '{$item->getID()}'";
+        global $DBConnect;
+
+        $res = $DBConnect->query($del);
+
+        return $res;
+
+    }
+
     //util
 
     function update($tatbleName, $id, $cols, $fields){
@@ -165,6 +195,7 @@
         $update = substr($update, 0, strlen($update)-2);
         $update .= " where ID = {$id}";
 
+        echo $update;
 
         $result = $DBConnect->query($update);
 
@@ -197,6 +228,9 @@
         }
         //remove final comma
         $insert = substr($insert, 0, strlen($insert)-1);
+
+        echo $insert;
+
 
         global $DBConnect;
         $result = $DBConnect->query($insert);

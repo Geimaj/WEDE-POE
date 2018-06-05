@@ -50,6 +50,10 @@ body {
     color: red;
 }
 
+.red {
+    background: red;
+}
+
 #header span {
     float: right;
 }
