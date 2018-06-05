@@ -53,6 +53,10 @@
             return $this->sellPrice;
         }
 
+        public function getCostPrice(){
+            return $this->costPrice;
+        }
+
         public function getQuantityOnHand(){
             return $this->quantityOnHand;
         }

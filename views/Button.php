@@ -38,6 +38,10 @@
             return $this->form;
         }
 
+        public function setPrompt($prompt){
+            $this->prompt = $prompt;
+        }
+
     }
 
 

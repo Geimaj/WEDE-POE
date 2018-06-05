@@ -133,3 +133,10 @@ input[type=submit]:hover {
     100% {opacity: 0;}
     /* 100%{display: none;} */
 }
+
+
+.thumb {
+    width: 20%;
+    height: 20%;
+
+}
