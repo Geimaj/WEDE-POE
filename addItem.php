@@ -28,12 +28,10 @@ if(isset($_POST['id'])){
     if($item->getId() === $id){
         //update
         $insertItem = new Item($id,$desc,$cost,$qoh,$sell);
-        echo "UPDATE";
         updateItem($insertItem);
 
     } else {
         //insert
-        echo "INSERT";
 
         $item = new Item($id,$desc,$cost,$qoh,$sell);
         insertItem($item);
@@ -41,9 +39,9 @@ if(isset($_POST['id'])){
 
     echo "<hr>";
 
-    print_r($_POST);
+//    print_r($_POST);
 
-//    header("location: admin.php");
+    header("location: admin.php");
 
 
 }

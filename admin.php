@@ -28,9 +28,12 @@ References:
 
         $img = "";
 
-        foreach ($paths as $path){
-            $img .= "<img class='thumb' src='$path' />";
-        }
+//        if(is_dir("images/" . $item->getID())){ //make sure pics are there
+
+            foreach ($paths as $path){
+                $img .= "<img class='thumb' src='$path' />";
+            }
+//        }
 
         $dataRow[] = $img;
         $dataRow[] = $item->getQuantityOnHand();

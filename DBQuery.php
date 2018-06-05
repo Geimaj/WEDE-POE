@@ -11,6 +11,53 @@
     include('DBConn.php');
     include('Item.php');
     include('User.php');
+    include('ShoppingCart.php');
+
+    //orders
+
+    function getOrdersForCustomer($user){
+        global $DBConnect;
+        $sql = "select * from tbl_Order where UserID = {$user->getID()}";
+
+        $result = $DBConnect->query($sql);
+
+        $orders = [];
+
+        //loop through orders
+
+        foreach ($result as $row){
+
+            $order = new ShoppingCart($user);
+
+            $order->setID($row['ID']);
+            $order->setDate($row['OrderDate']);
+
+            //get order items
+            $orderItemSql = "select * from tbl_OrderItem where OrderId = {$order->getID()}";
+            $orderRes = $DBConnect->query($orderItemSql);
+
+            //loop order items
+            foreach ($orderRes as $itemRow){
+
+                $itemID = $itemRow['ItemID'];
+
+                $itemResult = $DBConnect->query("select * from tbl_Item where ID = '{$itemID}'")->fetch_assoc();
+
+//                public function __construct($id,$desc,$cost,$quant, $sell
+                $item = new Item($itemResult['ID'],$itemResult['Description'],$itemResult['CostPrice'],$itemResult['Quantity'],$itemResult['SellPrice']);
+
+                $order->addItem($item);
+
+
+            }
+
+                $orders[] = $order;
+
+        }
+
+        return $orders;
+
+    }
 
     //cart
     function commitCart($cart){
@@ -31,7 +78,7 @@
                 } else {
                     //update item quantity
                     //get current quantity from DB
-                    if(!update("tbl_Item", " '{$item->getId()}' ", ['quantity'], [$item->getQuantity()])){
+                    if(!update("tbl_Item", " '{$item->getId()}' ", ['quantity'], [$item->getQuantityOnHand()])){
                         return false;
                     }
 
@@ -195,7 +242,6 @@
         $update = substr($update, 0, strlen($update)-2);
         $update .= " where ID = {$id}";
 
-        echo $update;
 
         $result = $DBConnect->query($update);
 

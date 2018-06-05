@@ -22,6 +22,14 @@
             // $this->id = com_create_guid();
         }
 
+        public function setID($id){
+            $this->id = $id;
+        }
+
+        public function setDate($date){
+
+        }
+
         public function getItemPrice(){
             return $this->item->getSellPrice();
         }

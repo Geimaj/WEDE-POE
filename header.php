@@ -1,5 +1,5 @@
 <?php
-  /*Name: Jamie 
+  /*Name: Jamie
 	Surname: Gregory  
 	Student#: 16000925
 	Login
@@ -42,6 +42,7 @@
                     <li><a href="index.php">Shop</a></li>
                     <li><a href="cart.php">Cart<?php echo "($numCartItems)" ?></a></li>
                     <li><a href="logout.php">Logout</a></li>
+                    <li><a href="orders.php">Orders</a></li>
 
                     <?php
                         if($user->isRoot()){

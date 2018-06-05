@@ -17,6 +17,24 @@
         private $ID = "";
         private $cartItems;
         private $user;
+        private $date;
+
+        public function getID(){
+            return $this->ID;
+        }
+
+        public function setID($id){
+            $this->ID = $id;
+        }
+
+        public function setDate($date){
+            $this->date = $date;
+        }
+
+        public function getDate(){
+            return $this->date;
+        }
+
 
         public function __construct($user){
             $this->cartItems = array();
